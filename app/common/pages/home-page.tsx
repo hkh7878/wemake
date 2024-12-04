@@ -5,6 +5,7 @@ import { PostCard } from "~/features/community/components/post-card";
 import { IdeaCard } from "~/features/ideas/components/idea-card";
 import { JobCard } from "~/features/jobs/components/job-card";
 import { TeamCard } from "~/features/teams/components/team-card";
+import { Route } from "./+types/home-page";
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,10 +18,11 @@ export const loader = () => {
   console.log("hello");
   return {
     hello: "world",
+    hello2: "lalalalll",
   };
 };
 
-export default function HomePage({ loaderData }) {
+export default function HomePage({ loaderData }: Route.ComponentProps) {
   return (
     <div className="px-20 space-y-40">
       <div className="grid grid-cols-3 gap-4">
