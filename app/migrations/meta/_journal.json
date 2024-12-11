@@ -8,6 +8,13 @@
       "when": 1733884289949,
       "tag": "0000_past_jean_grey",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1733886098516,
+      "tag": "0001_clever_phalanx",
+      "breakpoints": true
     }
   ]
 }
