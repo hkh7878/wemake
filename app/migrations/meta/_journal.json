@@ -29,6 +29,13 @@
       "when": 1733958200840,
       "tag": "0003_parallel_umar",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1733959171024,
+      "tag": "0004_fuzzy_crystal",
+      "breakpoints": true
     }
   ]
 }
