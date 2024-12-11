@@ -22,6 +22,13 @@
       "when": 1733890536955,
       "tag": "0002_tiny_naoko",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1733958200840,
+      "tag": "0003_parallel_umar",
+      "breakpoints": true
     }
   ]
 }
