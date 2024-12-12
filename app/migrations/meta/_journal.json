@@ -50,6 +50,13 @@
       "when": 1733960213709,
       "tag": "0006_swift_mantis",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1733962236353,
+      "tag": "0007_condemned_arclight",
+      "breakpoints": true
     }
   ]
 }
