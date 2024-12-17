@@ -71,6 +71,20 @@
       "when": 1734306741627,
       "tag": "0009_medical_silver_samurai",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1734478553464,
+      "tag": "0010_eminent_cardiac",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1734478631987,
+      "tag": "0011_last_paladin",
+      "breakpoints": true
     }
   ]
 }
