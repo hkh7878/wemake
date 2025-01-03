@@ -13,6 +13,7 @@ import { getGptIdeas } from "~/features/ideas/queries";
 import { getJobs } from "~/features/jobs/queries";
 import { getTeams } from "~/features/teams/queries";
 import { makeSSRClient } from "~/supa-client";
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Home | wemake" },
