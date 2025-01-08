@@ -1,6 +1,5 @@
 import { Hero } from "~/common/components/hero";
 import { Route } from "./+types/promote-page";
-import { Form } from "react-router";
 import SelectPair from "~/common/components/select-pair";
 import { Calendar } from "~/common/components/ui/calendar";
 import { useEffect, useRef, useState } from "react";
@@ -15,7 +14,7 @@ import {
 
 export const meta: Route.MetaFunction = () => {
   return [
-    { title: "PromoteProduct | ProductHunt Clone" },
+    { title: "Promote Product | ProductHunt Clone" },
     { name: "description", content: "Promote your product" },
   ];
 };
