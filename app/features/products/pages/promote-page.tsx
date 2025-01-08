@@ -15,7 +15,7 @@ import {
 
 export const meta: Route.MetaFunction = () => {
   return [
-    { title: "PromoteProduct | ProductHunt Clone" },
+    { title: "Promote Product | ProductHunt Clone" },
     { name: "description", content: "Promote your product" },
   ];
 };
