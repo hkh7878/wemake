@@ -1,6 +1,5 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "~/supa-client";
-import { productListSelect } from "../products/queries";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/supa-client";
 import { redirect } from "react-router";
 
 export const getUserProfile = async (
@@ -8,7 +7,7 @@ export const getUserProfile = async (
   { username }: { username: string }
 ) => {
   const { data, error } = await client
-    .from("profiles")
+    .from("profiles_view")
     .select(
       `
         profile_id,
@@ -17,7 +16,10 @@ export const getUserProfile = async (
         avatar,
         role,
         headline,
-        bio
+        bio,
+        followers:stats->>followers,
+        following:stats->>following,
+        is_following
         `
     )
     .eq("username", username)
@@ -33,7 +35,7 @@ export const getUserById = async (
   { id }: { id: string }
 ) => {
   const { data, error } = await client
-    .from("profiles")
+    .from("profiles_view")
     .select(
       `
         profile_id,
@@ -58,10 +60,10 @@ export const getUserProducts = async (
   { username }: { username: string }
 ) => {
   const { data, error } = await client
-    .from("products")
+    .from("product_list_view")
     .select(
       `
-        ${productListSelect},
+        *,
         profiles!products_to_profiles!inner (
             profile_id
         )

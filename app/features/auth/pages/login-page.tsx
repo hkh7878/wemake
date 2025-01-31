@@ -1,12 +1,11 @@
 import { Button } from "~/common/components/ui/button";
-import { Route } from "./+types/login-page";
+import type { Route } from "./+types/login-page";
 import { Form, Link, redirect, useNavigation } from "react-router";
 import InputPair from "~/common/components/input-pair";
 import AuthButtons from "../components/auth-buttons";
 import { LoaderCircle } from "lucide-react";
 import { z } from "zod";
 import { makeSSRClient } from "~/supa-client";
-import { log } from "console";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Login | wemake" }];

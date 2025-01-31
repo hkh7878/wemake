@@ -10,6 +10,7 @@ import { Button } from "~/common/components/ui/button";
 import { DotIcon, EyeIcon, HeartIcon, LockIcon } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { DateTime } from "luxon";
+import { LikeButton } from "./like-button";
 
 interface IdeaCardProps {
   id: number;
@@ -19,6 +20,7 @@ interface IdeaCardProps {
   postedAt?: string;
   likesCount?: number;
   claimed?: boolean;
+  isLiked?: boolean;
 }
 
 export function IdeaCard({
@@ -29,11 +31,12 @@ export function IdeaCard({
   postedAt,
   likesCount,
   claimed,
+  isLiked,
 }: IdeaCardProps) {
   return (
-    <Card className="bg-transparent hover:bg-card/50 transition-colors">
+    <Card className="bg-transparent hover:bg-card/50 transition-colors flex flex-col justify-between">
       <CardHeader>
-        <Link to={claimed || owner ? "" : `/ideas/${id}`}>
+        {claimed && !owner ? (
           <CardTitle className="text-xl">
             <span
               className={cn(
@@ -42,30 +45,49 @@ export function IdeaCard({
                   : ""
               )}
             >
-              {title}
+              {title.length > 100 ? title.slice(0, 100) + "..." : title}
             </span>
           </CardTitle>
-        </Link>
+        ) : (
+          <Link to={claimed || owner ? "" : `/ideas/${id}`}>
+            <CardTitle className="text-xl">
+              <span>
+                {owner
+                  ? title
+                  : title.length > 100
+                    ? title.slice(0, 100) + "..."
+                    : title}
+              </span>
+            </CardTitle>
+          </Link>
+        )}
+        {owner ? null : (
+          <CardContent className="flex items-center text-sm pr-0 p-0">
+            <div className="flex items-center gap-1">
+              <EyeIcon className="w-4 h-4" />
+              <span>{viewsCount}</span>
+            </div>
+            <DotIcon className="w-4 h-4" />
+            {postedAt ? (
+              <span>
+                {DateTime.fromISO(postedAt, {
+                  zone: "utc",
+                }).toRelative()}
+              </span>
+            ) : null}
+          </CardContent>
+        )}
       </CardHeader>
-      {owner ? null : (
-        <CardContent className="flex items-center text-sm">
-          <div className="flex items-center gap-1">
-            <EyeIcon className="w-4 h-4" />
-            <span>{viewsCount}</span>
-          </div>
-          <DotIcon className="w-4 h-4" />
-          {postedAt ? (
-            <span>{DateTime.fromISO(postedAt).toRelative()}</span>
-          ) : null}
-        </CardContent>
-      )}
       <CardFooter className="flex justify-end gap-2">
         {!claimed && !owner ? (
           <>
-            <Button variant="outline">
-              <HeartIcon className="w-4 h-4" />
-              <span>{likesCount}</span>
-            </Button>
+            {likesCount !== undefined ? (
+              <LikeButton
+                ideaId={id}
+                likesCount={likesCount}
+                isLiked={isLiked ?? false}
+              />
+            ) : null}
             <Button asChild>
               <Link to={`/ideas/${id}`}>Claim idea now &rarr;</Link>
             </Button>

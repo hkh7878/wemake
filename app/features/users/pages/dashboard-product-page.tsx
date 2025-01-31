@@ -4,9 +4,9 @@ import {
   CardHeader,
   CardTitle,
 } from "~/common/components/ui/card";
-import { Route } from "./+types/dashboard-product-page";
+import type { Route } from "./+types/dashboard-product-page";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -54,13 +54,36 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+function generateYearlyData() {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  return months.map((month) => ({
+    product_views: Math.floor(Math.random() * 150) + 50, // Random number between 50-200
+    product_visits: Math.floor(Math.random() * 100) + 30, // Random number between 30-130
+    month,
+  }));
+}
+
 export default function DashboardProductPage({
   loaderData,
 }: Route.ComponentProps) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 w-full">
       <h1 className="text-2xl font-semibold mb-6">Analytics</h1>
-      <Card className="w-1/2">
+      <Card className="md:w-1/2 w-full">
         <CardHeader>
           <CardTitle>Performance</CardTitle>
         </CardHeader>
@@ -68,7 +91,7 @@ export default function DashboardProductPage({
           <ChartContainer config={chartConfig}>
             <AreaChart
               accessibilityLayer
-              data={loaderData.chartData}
+              data={generateYearlyData()}
               margin={{
                 left: 12,
                 right: 12,

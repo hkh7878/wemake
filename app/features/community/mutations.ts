@@ -1,5 +1,5 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "~/supa-client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/supa-client";
 
 export const createPost = async (
   client: SupabaseClient<Database>,
@@ -62,7 +62,6 @@ export const toggleUpvote = async (
   client: SupabaseClient<Database>,
   { postId, userId }: { postId: string; userId: string }
 ) => {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
   const { count } = await client
     .from("post_upvotes")
     .select("*", { count: "exact", head: true })

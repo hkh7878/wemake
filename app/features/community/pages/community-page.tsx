@@ -14,7 +14,6 @@ import { Input } from "~/common/components/ui/input";
 import { PostCard } from "../components/post-card";
 import { getPosts, getTopics } from "../queries";
 import { z } from "zod";
-import { parseDomainOfCategoryAxis } from "recharts/types/util/ChartUtils";
 import { makeSSRClient } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
@@ -64,15 +63,16 @@ export default function CommunityPage({ loaderData }: Route.ComponentProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const sorting = searchParams.get("sorting") || "newest";
   const period = searchParams.get("period") || "all";
+  const keyword = searchParams.get("keyword") || "";
   return (
     <div className="space-y-20">
       <Hero
         title="Community"
         subtitle="Ask questions, share ideas, and connect with other developers"
       />
-      <div className="grid grid-cols-6 items-start gap-40">
-        <div className="col-span-4 space-y-10">
-          <div className="flex justify-between">
+      <div className="grid grid-cols-1 md:grid-cols-6 items-start md:gap-40 gap-10">
+        <div className="md:col-span-4 space-y-10">
+          <div className="flex flex-col md:flex-row gap-10 md:gap-0 justify-between">
             <div className="space-y-5 w-full">
               <div className="flex items-center gap-5">
                 <DropdownMenu>
@@ -122,11 +122,12 @@ export default function CommunityPage({ loaderData }: Route.ComponentProps) {
                   </DropdownMenu>
                 )}
               </div>
-              <Form className="w-2/3">
+              <Form className="w-full md:w-2/3">
                 <Input
                   type="text"
                   name="keyword"
                   placeholder="Search for discussions"
+                  defaultValue={keyword}
                 />
               </Form>
             </div>
@@ -149,9 +150,20 @@ export default function CommunityPage({ loaderData }: Route.ComponentProps) {
                 expanded
               />
             ))}
+            {loaderData.posts.length === 0 && (
+              <div className="col-span-full">
+                <p className="text-lg font-semibold text-muted-foreground">
+                  No posts found, modify or{" "}
+                  <Button variant={"link"} asChild className="p-0 text-lg">
+                    <Link to="/community">reset</Link>
+                  </Button>{" "}
+                  search.
+                </p>
+              </div>
+            )}
           </div>
         </div>
-        <aside className="col-span-2 space-y-5">
+        <aside className="md:col-span-2 space-y-5">
           <span className="text-sm font-bold text-muted-foreground uppercase">
             Topics
           </span>

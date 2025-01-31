@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { Route } from "./+types/daily-leaderboard-page";
+import type { Route } from "./+types/daily-leaderboard-page";
 import { data, isRouteErrorResponse, Link } from "react-router";
 import { z } from "zod";
 import { Hero } from "~/common/components/hero";
@@ -131,8 +131,21 @@ export default function DailyLeaderboardPage({
             reviewsCount={product.reviews}
             viewsCount={product.views}
             votesCount={product.upvotes}
+            isUpvoted={product.is_upvoted}
+            promotedFrom={product.promoted_from}
           />
         ))}
+        {loaderData.products.length === 0 && (
+          <div className="col-span-full">
+            <p className=" text-center font-semibold text-muted-foreground">
+              No products found, go back to{" "}
+              <Button variant={"link"} asChild className="p-0 text-lg">
+                <Link to="/products/leaderboards">leaderboards</Link>
+              </Button>{" "}
+              page.
+            </p>
+          </div>
+        )}
       </div>
       <ProductPagination totalPages={loaderData.totalPages} />
     </div>

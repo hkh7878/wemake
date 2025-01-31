@@ -25,7 +25,15 @@ export const products = pgTable(
     how_it_works: text().notNull(),
     icon: text().notNull(),
     url: text().notNull(),
-    stats: jsonb().notNull().default({ views: 0, reviews: 0, upvotes: 0 }),
+    stats: jsonb()
+      .notNull()
+      .default(
+        sql`jsonb_build_object(
+          'views', floor(random() * 1000)::int,
+          'reviews', 0,
+          'upvotes', floor(random() * 100)::int
+        )`
+      ),
     profile_id: uuid()
       .notNull()
       .references(() => profiles.profile_id, {
@@ -34,6 +42,8 @@ export const products = pgTable(
     category_id: bigint({ mode: "number" })
       .references(() => categories.category_id, { onDelete: "set null" })
       .notNull(),
+    promoted_from: timestamp(),
+    promoted_to: timestamp(),
     created_at: timestamp().notNull().defaultNow(),
     updated_at: timestamp().notNull().defaultNow(),
   },

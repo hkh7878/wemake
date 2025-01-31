@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Route } from "./+types/social-start-page";
+import type { Route } from "./+types/social-start-page";
 import { redirect } from "react-router";
 import { makeSSRClient } from "~/supa-client";
 

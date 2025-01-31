@@ -1,5 +1,5 @@
 import { Form } from "react-router";
-import { Route } from "./+types/settings-page";
+import type { Route } from "./+types/settings-page";
 import InputPair from "~/common/components/input-pair";
 import SelectPair from "~/common/components/select-pair";
 import { useState } from "react";
@@ -15,6 +15,8 @@ import {
   AlertDescription,
   AlertTitle,
 } from "~/common/components/ui/alert";
+import { Avatar } from "@radix-ui/react-avatar";
+import { AvatarFallback } from "~/common/components/ui/avatar";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Settings | wemake" }];
@@ -48,7 +50,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
           upsert: false,
         });
       if (error) {
-        console.log(error);
         return { formErrors: { avatar: ["Failed to upload avatar"] } };
       }
       const {
@@ -99,9 +100,9 @@ export default function SettingsPage({
     }
   };
   return (
-    <div className="space-y-20">
-      <div className="grid grid-cols-6 gap-40">
-        <div className="col-span-4 flex flex-col gap-10">
+    <div className="space-y-10 md:space-y-20">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-10 md:gap-40">
+        <div className="md:col-span-4 flex flex-col gap-10">
           {actionData?.ok ? (
             <Alert>
               <AlertTitle>Success</AlertTitle>
@@ -111,7 +112,7 @@ export default function SettingsPage({
             </Alert>
           ) : null}
           <h2 className="text-2xl font-semibold">Edit profile</h2>
-          <Form className="flex flex-col w-1/2 gap-5" method="post">
+          <Form className="flex flex-col md:w-1/2 gap-5" method="post">
             <InputPair
               label="Name"
               description="Your public name"
@@ -158,7 +159,7 @@ export default function SettingsPage({
               defaultValue={loaderData.user.headline ?? ""}
               id="headline"
               name="headline"
-              placeholder="John Doe"
+              placeholder="i.e. Founder of wemake"
               textArea
             />
             {actionData?.formErrors && "headline" in actionData?.formErrors ? (
@@ -176,7 +177,7 @@ export default function SettingsPage({
               id="bio"
               defaultValue={loaderData.user.bio ?? ""}
               name="bio"
-              placeholder="John Doe"
+              placeholder="i.e. I'm a developer who loves to build products."
               textArea
             />
             {actionData?.formErrors && "bio" in actionData?.formErrors ? (
@@ -191,7 +192,7 @@ export default function SettingsPage({
           </Form>
         </div>
         <Form
-          className="col-span-2 p-6 rounded-lg border shadow-md"
+          className="md:col-span-2 p-6 rounded-lg border shadow-md flex flex-col gap-5"
           method="post"
           encType="multipart/form-data"
         >
@@ -205,7 +206,13 @@ export default function SettingsPage({
             <div className="size-40 rounded-full shadow-xl overflow-hidden ">
               {avatar ? (
                 <img src={avatar} className="object-cover w-full h-full" />
-              ) : null}
+              ) : (
+                <Avatar>
+                  <AvatarFallback className="text-5xl">
+                    {loaderData.user.name[0]}
+                  </AvatarFallback>
+                </Avatar>
+              )}
             </div>
             <Input
               type="file"

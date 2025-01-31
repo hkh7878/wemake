@@ -1,11 +1,11 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import { Database } from "~/supa-client";
-import { formSchema } from "./pages/submit-job-page";
+import type { Database } from "~/supa-client";
+import { type paramsSchema } from "./pages/submit-job-success";
 
 export const createJob = async (
   client: SupabaseClient<Database>,
-  data: z.infer<typeof formSchema>
+  data: z.infer<typeof paramsSchema>
 ) => {
   const { data: jobData, error } = await client
     .from("jobs")

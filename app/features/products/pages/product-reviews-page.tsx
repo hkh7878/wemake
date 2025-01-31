@@ -1,16 +1,9 @@
 import { Button } from "~/common/components/ui/button";
 import { ReviewCard } from "../components/review-card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/common/components/ui/dialog";
+import { Dialog, DialogTrigger } from "~/common/components/ui/dialog";
 import CreateReviewDialog from "../components/create-review-dialog";
 import { useOutletContext } from "react-router";
-import { Route } from "./+types/product-reviews-page";
+import type { Route } from "./+types/product-reviews-page";
 import { getReviews } from "../queries";
 import { makeSSRClient } from "~/supa-client";
 import { getLoggedInUserId } from "~/features/users/queries";

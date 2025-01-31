@@ -1,6 +1,6 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { DateTime } from "luxon";
-import { Database } from "~/supa-client";
+import type { Database } from "~/supa-client";
 
 export const getTopics = async (client: SupabaseClient<Database>) => {
   const { data, error } = await client.from("topics").select("name, slug");

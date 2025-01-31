@@ -1,6 +1,6 @@
 import { Button } from "~/common/components/ui/button";
 import { Form, Link, redirect, useNavigation } from "react-router";
-import { Route } from "./+types/join-page";
+import type { Route } from "./+types/join-page";
 import InputPair from "~/common/components/input-pair";
 import AuthButtons from "../components/auth-buttons";
 import { makeSSRClient } from "~/supa-client";
@@ -62,7 +62,11 @@ export default function JoinPage({ actionData }: Route.ComponentProps) {
     navigation.state === "submitting" || navigation.state === "loading";
   return (
     <div className="flex flex-col relative items-center justify-center h-full">
-      <Button variant={"ghost"} asChild className="absolute right-8 top-8 ">
+      <Button
+        variant={"ghost"}
+        asChild
+        className="md:absolute hidden right-8 top-8 "
+      >
         <Link to="/auth/login">Login</Link>
       </Button>
       <div className="flex items-center flex-col justify-center w-full max-w-md gap-10">

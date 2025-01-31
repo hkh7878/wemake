@@ -1,5 +1,5 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "~/supa-client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/supa-client";
 
 export const claimIdea = async (
   client: SupabaseClient<Database>,
@@ -25,5 +25,27 @@ export const insertIdeas = async (
   );
   if (error) {
     throw error;
+  }
+};
+
+export const toggleIdeaLike = async (
+  client: SupabaseClient<Database>,
+  { userId, ideaId }: { userId: string; ideaId: string }
+) => {
+  const { count, error } = await client
+    .from("gpt_ideas_likes")
+    .select("*", { count: "exact", head: true })
+    .eq("gpt_idea_id", ideaId)
+    .eq("profile_id", userId);
+  if (error) {
+    throw error;
+  }
+  if (count === 0) {
+    await client.from("gpt_ideas_likes").insert({
+      gpt_idea_id: Number(ideaId),
+      profile_id: userId,
+    });
+  } else {
+    await client.from("gpt_ideas_likes").delete().eq("gpt_idea_id", ideaId);
   }
 };

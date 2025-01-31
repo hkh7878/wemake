@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { Route } from "./+types/weekly-leaderboard-page";
+import type { Route } from "./+types/weekly-leaderboard-page";
 import { data, isRouteErrorResponse, Link } from "react-router";
 import { z } from "zod";
 import { Hero } from "~/common/components/hero";
@@ -8,6 +8,7 @@ import { Button } from "~/common/components/ui/button";
 import ProductPagination from "~/common/components/product-pagination";
 import { getProductPagesByDateRange, getProductsByDateRange } from "../queries";
 import { makeSSRClient } from "~/supa-client";
+import { PAGE_SIZE } from "../contants";
 
 const paramsSchema = z.object({
   year: z.coerce.number(),
@@ -73,7 +74,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const products = await getProductsByDateRange(client, {
     startDate: date.startOf("week"),
     endDate: date.endOf("week"),
-    limit: 15,
+    limit: PAGE_SIZE,
     page: Number(url.searchParams.get("page") || 1),
   });
   const totalPages = await getProductPagesByDateRange(client, {
@@ -134,8 +135,21 @@ export default function WeeklyLeaderboardPage({
             reviewsCount={product.reviews}
             viewsCount={product.views}
             votesCount={product.upvotes}
+            promotedFrom={product.promoted_from}
+            isUpvoted={product.is_upvoted}
           />
         ))}
+        {loaderData.products.length === 0 && (
+          <div className="col-span-full">
+            <p className=" text-center font-semibold text-muted-foreground">
+              No products found, go back to{" "}
+              <Button variant={"link"} asChild className="p-0 text-lg">
+                <Link to="/products/leaderboards">leaderboards</Link>
+              </Button>{" "}
+              page.
+            </p>
+          </div>
+        )}
       </div>
       <ProductPagination totalPages={loaderData.totalPages} />
     </div>

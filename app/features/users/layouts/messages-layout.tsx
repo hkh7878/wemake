@@ -5,11 +5,13 @@ import {
   SidebarGroup,
   SidebarMenu,
   SidebarProvider,
+  SidebarTrigger,
 } from "~/common/components/ui/sidebar";
 import MessageRoomCard from "../components/message-room-card";
-import { Route } from "./+types/messages-layout";
+import type { Route } from "./+types/messages-layout";
 import { makeSSRClient } from "~/supa-client";
 import { getLoggedInUserId, getMessages } from "../queries";
+import { EyeClosedIcon } from "lucide-react";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const { client } = await makeSSRClient(request);
@@ -43,9 +45,16 @@ export default function MessagesLayout({ loaderData }: Route.ComponentProps) {
               ))}
             </SidebarMenu>
           </SidebarGroup>
+          {loaderData.messages.length === 0 && (
+            <div className="text-muted-foreground font-semibold h-full flex flex-col items-center justify-center text-center">
+              <EyeClosedIcon className="size-10" />
+              <span>No messages yet, join a team to start messaging!</span>
+            </div>
+          )}
         </SidebarContent>
       </Sidebar>
-      <div className=" h-full flex-1">
+      <div className="w-full flex md:block gap-5 md:gap-0 h-full">
+        <SidebarTrigger className="md:hidden" />
         <Outlet context={{ userId, name, avatar }} />
       </div>
     </SidebarProvider>

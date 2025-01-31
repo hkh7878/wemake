@@ -53,24 +53,37 @@ export function NotificationCard({
   const optimiscitSeen = fetcher.state === "idle" ? seen : true;
   return (
     <Card
-      className={cn("min-w-[450px]", optimiscitSeen ? "" : "bg-yellow-500/60")}
+      className={cn(
+        "md:min-w-[500px] w-full",
+        optimiscitSeen ? "" : "border border-yellow-400"
+      )}
     >
-      <CardHeader className="flex flex-row gap-5 space-y-0 items-start">
+      <CardHeader className="flex flex-row gap-5 space-y-0 ">
         <Avatar className="">
           <AvatarImage src={avatarUrl} />
           <AvatarFallback>{avatarFallback}</AvatarFallback>
         </Avatar>
-        <div>
-          <CardTitle className="text-lg space-y-0 font-bold">
-            <span>{userName}</span>
-            <span>{getMessage(type)}</span>
+        <div className="overflow-hidden whitespace-nowrap overflow-ellipsis">
+          <CardTitle className="text-lg space-y-0 font-bold flex flex-col flex-wrap items-start w-full">
+            <div>
+              <span>{userName}</span>
+              <span>{getMessage(type)}</span>
+            </div>
             {productName && (
-              <Button variant={"ghost"} asChild className="text-lg">
+              <Button
+                variant={"link"}
+                asChild
+                className="text-lg p-0 text-white "
+              >
                 <Link to={`/products/${payloadId}`}>{productName}</Link>
               </Button>
             )}
             {postTitle && (
-              <Button variant={"ghost"} asChild className="text-lg">
+              <Button
+                variant={"link"}
+                asChild
+                className="text-lg p-0 text-white "
+              >
                 <Link to={`/community/${payloadId}`}>{postTitle}</Link>
               </Button>
             )}
@@ -78,15 +91,15 @@ export function NotificationCard({
           <small className="text-muted-foreground text-sm">{timestamp}</small>
         </div>
       </CardHeader>
-      <CardFooter className="flex justify-end">
-        {optimiscitSeen ? null : (
+      {optimiscitSeen ? null : (
+        <CardFooter className="flex justify-end pt-0">
           <fetcher.Form method="post" action={`/my/notifications/${id}/see`}>
             <Button variant="outline" size="icon">
               <EyeIcon className="w-4 h-4" />
             </Button>
           </fetcher.Form>
-        )}
-      </CardFooter>
+        </CardFooter>
+      )}
     </Card>
   );
 }

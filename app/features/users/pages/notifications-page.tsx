@@ -1,4 +1,4 @@
-import { Route } from "./+types/notifications-page";
+import type { Route } from "./+types/notifications-page";
 import { NotificationCard } from "../components/notification-card";
 import { makeSSRClient } from "~/supa-client";
 import { getLoggedInUserId, getNotifications } from "../queries";
@@ -19,8 +19,8 @@ export default function NotificationsPage({
   loaderData,
 }: Route.ComponentProps) {
   return (
-    <div className="space-y-20">
-      <h1 className="text-4xl font-bold">Notifications</h1>
+    <div className="space-y-10 md:space-y-20">
+      <h1 className="text-2xl md:text-4xl font-bold">Notifications</h1>
       <div className="flex flex-col items-start gap-5">
         {loaderData.notifications.map((notification) => (
           <NotificationCard
@@ -35,7 +35,11 @@ export default function NotificationsPage({
             payloadId={
               notification.product?.product_id ?? notification.post?.post_id
             }
-            timestamp={DateTime.fromISO(notification.created_at).toRelative()!}
+            timestamp={
+              DateTime.fromISO(notification.created_at, {
+                zone: "utc",
+              }).toRelative()!
+            }
             seen={notification.seen}
           />
         ))}

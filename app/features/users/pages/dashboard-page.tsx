@@ -1,5 +1,6 @@
 import { Line } from "recharts";
-import { ChartConfig, ChartTooltipContent } from "~/common/components/ui/chart";
+import type { ChartConfig } from "~/common/components/ui/chart";
+import { ChartTooltipContent } from "~/common/components/ui/chart";
 import { ChartTooltip } from "~/common/components/ui/chart";
 import {
   Card,
@@ -7,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/common/components/ui/card";
-import { Route } from "./+types/dashboard-page";
+import type { Route } from "./+types/dashboard-page";
 import { ChartContainer } from "~/common/components/ui/chart";
 import { CartesianGrid, LineChart, XAxis } from "recharts";
 import { getLoggedInUserId } from "../queries";
@@ -38,11 +39,33 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+function generateYearlyData() {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  return months.map((month) => ({
+    views: Math.floor(Math.random() * 150) + 50,
+    month,
+  }));
+}
+
 export default function DashboardPage({ loaderData }: Route.ComponentProps) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 w-full">
       <h1 className="text-2xl font-semibold mb-6">Dashboard</h1>
-      <Card className="w-1/2">
+      <Card className="md:w-1/2 w-full">
         <CardHeader>
           <CardTitle>Profile views</CardTitle>
         </CardHeader>
@@ -50,7 +73,7 @@ export default function DashboardPage({ loaderData }: Route.ComponentProps) {
           <ChartContainer config={chartConfig}>
             <LineChart
               accessibilityLayer
-              data={loaderData.chartData}
+              data={generateYearlyData()}
               margin={{
                 left: 12,
                 right: 12,

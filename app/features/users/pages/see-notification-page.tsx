@@ -1,5 +1,5 @@
 import { makeSSRClient } from "~/supa-client";
-import { Route } from "./+types/see-notification-page";
+import type { Route } from "./+types/see-notification-page";
 import { getLoggedInUserId } from "../queries";
 import { seeNotification } from "../mutations";
 

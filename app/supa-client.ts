@@ -4,8 +4,8 @@ import {
   parseCookieHeader,
   serializeCookieHeader,
 } from "@supabase/ssr";
-import { MergeDeep, SetNonNullable, SetFieldType } from "type-fest";
-import { Database as SupabaseDatabase } from "database.types";
+import type { MergeDeep, SetNonNullable, SetFieldType } from "type-fest";
+import type { Database as SupabaseDatabase } from "database.types";
 import { createClient } from "@supabase/supabase-js";
 
 export type Database = MergeDeep<
@@ -16,6 +16,11 @@ export type Database = MergeDeep<
         messages_view: {
           Row: SetNonNullable<
             SupabaseDatabase["public"]["Views"]["messages_view"]["Row"]
+          >;
+        };
+        product_list_view: {
+          Row: SetNonNullable<
+            SupabaseDatabase["public"]["Views"]["product_list_view"]["Row"]
           >;
         };
         community_post_list_view: {
@@ -42,6 +47,11 @@ export type Database = MergeDeep<
             SupabaseDatabase["public"]["Views"]["gpt_ideas_view"]["Row"]
           >;
         };
+        profiles_view: {
+          Row: SetNonNullable<
+            SupabaseDatabase["public"]["Views"]["profiles_view"]["Row"]
+          >;
+        };
       };
     };
   }
@@ -49,7 +59,7 @@ export type Database = MergeDeep<
 
 export const browserClient = createBrowserClient<Database>(
   "https://micuqwjpvmdexbwwpixv.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pY3Vxd2pwdm1kZXhid3dwaXh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM4NzM4NjUsImV4cCI6MjA0OTQ0OTg2NX0.SwvarbeWCqfPikXK-qSbAt-YVtJvkGvAUnLfTamkQdc"
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pY3Vxd2pwdm1kZXhid3dwaXh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxNzI1ODUsImV4cCI6MjA1Mzc0ODU4NX0.rrQjkegUKt--UjOIHJ2qmmJGtf-8VgBz7yVtWN_xP0k"
 );
 
 export const makeSSRClient = (request: Request) => {
@@ -80,7 +90,8 @@ export const makeSSRClient = (request: Request) => {
   };
 };
 
-export const adminClient = createClient<Database>(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+export const makeAdminClient = () =>
+  createClient<Database>(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );

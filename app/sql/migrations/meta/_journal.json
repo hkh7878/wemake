@@ -106,6 +106,62 @@
       "when": 1735785384825,
       "tag": "0014_big_khan",
       "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1737966852201,
+      "tag": "0015_tricky_jimmy_woo",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1737969391044,
+      "tag": "0016_white_maginty",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1737969410978,
+      "tag": "0017_lowly_nick_fury",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1737969475709,
+      "tag": "0018_long_boomer",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1737969747242,
+      "tag": "0019_equal_synch",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1738077301458,
+      "tag": "0020_sturdy_darkstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1738135692737,
+      "tag": "0021_puzzling_sway",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1738137444511,
+      "tag": "0022_youthful_blade",
+      "breakpoints": true
     }
   ]
 }

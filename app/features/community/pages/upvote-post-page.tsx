@@ -1,5 +1,5 @@
 import { makeSSRClient } from "~/supa-client";
-import { Route } from "./+types/upvote-post-page";
+import type { Route } from "./+types/upvote-post-page";
 import { getLoggedInUserId } from "~/features/users/queries";
 import { toggleUpvote } from "../mutations";
 

@@ -1,5 +1,5 @@
 import { Hero } from "~/common/components/hero";
-import { Route } from "./+types/submit-product-page";
+import type { Route } from "./+types/submit-product-page";
 import { Form, redirect } from "react-router";
 import InputPair from "~/common/components/input-pair";
 import SelectPair from "~/common/components/select-pair";
@@ -95,9 +95,9 @@ export default function SubmitPage({
       <Form
         method="post"
         encType="multipart/form-data"
-        className="grid grid-cols-2 gap-10 max-w-screen-lg mx-auto"
+        className="grid md:grid-cols-2 gap-10 max-w-screen-lg mx-auto"
       >
-        <div className="space-y-5">
+        <div className="space-y-5 order-1 md:order-0">
           <InputPair
             label="Name"
             description="This is the name of your product"
@@ -192,11 +192,13 @@ export default function SubmitPage({
             Submit
           </Button>
         </div>
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col order-0 md:order-1 space-y-2">
           <div className="size-40 rounded-xl shadow-xl overflow-hidden ">
             {icon ? (
               <img src={icon} className="object-cover w-full h-full" />
-            ) : null}
+            ) : (
+              <div className="bg-muted size-full" />
+            )}
           </div>
           <Label className="flex flex-col gap-1">
             Icon
@@ -206,7 +208,7 @@ export default function SubmitPage({
           </Label>
           <Input
             type="file"
-            className="w-1/2"
+            className="md:w-1/2"
             onChange={onChange}
             required
             name="icon"

@@ -1,5 +1,5 @@
 import { Hero } from "~/common/components/hero";
-import { Route } from "./+types/team-page";
+import type { Route } from "./+types/team-page";
 import { Button } from "~/common/components/ui/button";
 import {
   Avatar,
@@ -7,7 +7,7 @@ import {
   AvatarImage,
 } from "~/common/components/ui/avatar";
 import { Badge } from "~/common/components/ui/badge";
-import { Form } from "react-router";
+import { Form, Link } from "react-router";
 import InputPair from "~/common/components/input-pair";
 import {
   Card,
@@ -32,8 +32,8 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
   return (
     <div className="space-y-20">
       <Hero title={`Join ${loaderData.team.team_leader.name}'s team`} />
-      <div className="grid grid-cols-6 gap-40 items-start">
-        <div className="col-span-4 grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-10 md:gap-40 items-start">
+        <div className="md:col-span-4 grid grid-cols-1 md:grid-cols-4 gap-5">
           {[
             {
               title: "Product name",
@@ -52,7 +52,7 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
               value: loaderData.team.equity_split,
             },
           ].map((item) => (
-            <Card>
+            <Card key={item.title}>
               <CardHeader>
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                   {item.title}
@@ -88,20 +88,24 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
             </CardHeader>
           </Card>
         </div>
-        <aside className="col-span-2 space-y-5 border rounded-lg p-6 shadow-sm">
+        <aside className="md:col-span-2 space-y-5 border rounded-lg p-6 shadow-sm">
           <div className="flex gap-5">
-            <Avatar className="size-14">
-              <AvatarFallback>
-                {loaderData.team.team_leader.name[0]}
-              </AvatarFallback>
-              {loaderData.team.team_leader.avatar ? (
-                <AvatarImage src={loaderData.team.team_leader.avatar} />
-              ) : null}
-            </Avatar>
+            <Link to={`/users/${loaderData.team.team_leader.username}`}>
+              <Avatar className="size-14">
+                <AvatarFallback>
+                  {loaderData.team.team_leader.name[0]}
+                </AvatarFallback>
+                {loaderData.team.team_leader.avatar ? (
+                  <AvatarImage src={loaderData.team.team_leader.avatar} />
+                ) : null}
+              </Avatar>
+            </Link>
             <div className="flex flex-col items-start">
-              <h4 className="text-lg font-medium">
-                {loaderData.team.team_leader.name}
-              </h4>
+              <Link to={`/users/${loaderData.team.team_leader.username}`}>
+                <h4 className="text-lg font-medium">
+                  {loaderData.team.team_leader.name}
+                </h4>
+              </Link>
               <Badge variant="secondary" className="capitalize">
                 {loaderData.team.team_leader.role}
               </Badge>

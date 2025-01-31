@@ -1,15 +1,10 @@
 import { DateTime } from "luxon";
 import { PAGE_SIZE } from "./contants";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "~/supa-client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/supa-client";
 
 export const productListSelect = `
-product_id,
-name,
-tagline,
-upvotes:stats->>upvotes,
-views:stats->>views,
-reviews:stats->>reviews
+*
 `;
 
 export const getProductsByDateRange = async (
@@ -27,12 +22,13 @@ export const getProductsByDateRange = async (
   }
 ) => {
   const { data, error } = await client
-    .from("products")
+    .from("product_list_view")
     .select(productListSelect)
-    .order("stats->>upvotes", { ascending: false })
+    .order("promoted_from", { ascending: true })
+    .order("upvotes", { ascending: false })
     .gte("created_at", startDate.toISO())
     .lte("created_at", endDate.toISO())
-    .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
+    .range((page - 1) * PAGE_SIZE, page * limit - 1);
   if (error) throw error;
   return data;
 };
@@ -89,9 +85,11 @@ export const getProductsByCategory = async (
   }
 ) => {
   const { data, error } = await client
-    .from("products")
+    .from("product_list_view")
     .select(productListSelect)
     .eq("category_id", categoryId)
+    .order("promoted_from", { ascending: true })
+    .order("upvotes", { ascending: false })
     .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
   if (error) throw error;
   return data;
@@ -115,9 +113,11 @@ export const getProductsBySearch = async (
   { query, page }: { query: string; page: number }
 ) => {
   const { data, error } = await client
-    .from("products")
+    .from("product_list_view")
     .select(productListSelect)
     .or(`name.ilike.%${query}%, tagline.ilike.%${query}%`)
+    .order("promoted_from", { ascending: true })
+    .order("upvotes", { ascending: false })
     .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
   if (error) throw error;
   return data;

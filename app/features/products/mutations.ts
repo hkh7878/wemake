@@ -1,5 +1,5 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "~/supa-client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/supa-client";
 
 export const createProductReview = async (
   client: SupabaseClient<Database>,
@@ -59,4 +59,45 @@ export const createProduct = async (
     .single();
   if (error) throw error;
   return data.product_id;
+};
+
+export const toggleProductUpvote = async (
+  client: SupabaseClient<Database>,
+  { productId, userId }: { productId: string; userId: string }
+) => {
+  const { count } = await client
+    .from("product_upvotes")
+    .select("*", { count: "exact", head: true })
+    .eq("product_id", productId)
+    .eq("profile_id", userId);
+  if (count === 0) {
+    await client.from("product_upvotes").insert({
+      product_id: Number(productId),
+      profile_id: userId,
+    });
+  } else {
+    await client
+      .from("product_upvotes")
+      .delete()
+      .eq("product_id", Number(productId))
+      .eq("profile_id", userId);
+  }
+};
+
+export const recordPromotion = async (
+  client: SupabaseClient<Database>,
+  {
+    productId,
+    promotionFrom,
+    promotionTo,
+  }: { productId: string; promotionFrom: string; promotionTo: string }
+) => {
+  const { error } = await client
+    .from("products")
+    .update({
+      promoted_from: promotionFrom,
+      promoted_to: promotionTo,
+    })
+    .eq("product_id", productId);
+  if (error) throw error;
 };

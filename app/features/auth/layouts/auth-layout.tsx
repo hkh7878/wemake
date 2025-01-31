@@ -4,7 +4,7 @@ import FlickeringGrid from "~/common/components/ui/flickering-grid";
 export default function AuthLayout() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 h-screen">
-      <div>
+      <div className="hidden md:block">
         <FlickeringGrid
           squareSize={4}
           gridGap={5}
@@ -13,7 +13,9 @@ export default function AuthLayout() {
           color="#E11D49"
         />
       </div>
-      <Outlet />
+      <div className="px-5 py-10 md:p-0">
+        <Outlet />
+      </div>
     </div>
   );
 }

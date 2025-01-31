@@ -1,5 +1,5 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "~/supa-client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/supa-client";
 
 export const getJobs = async (
   client: SupabaseClient<Database>,
@@ -32,13 +32,13 @@ export const getJobs = async (
     `
     )
     .limit(limit);
-  if (location) {
+  if (location && location !== "") {
     baseQuery.eq("location", location);
   }
-  if (type) {
+  if (type && type !== "") {
     baseQuery.eq("job_type", type);
   }
-  if (salary) {
+  if (salary && salary !== "") {
     baseQuery.eq("salary_range", salary);
   }
   const { data, error } = await baseQuery;

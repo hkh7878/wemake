@@ -1,6 +1,6 @@
 import { Badge } from "~/common/components/ui/badge";
-import { Route } from "./+types/job-page";
-import { DotIcon } from "lucide-react";
+import type { Route } from "./+types/job-page";
+import { DotIcon, LockIcon } from "lucide-react";
 import { Button } from "~/common/components/ui/button";
 import { getJobById } from "../queries";
 import { DateTime } from "luxon";
@@ -11,7 +11,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
 };
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
-  const { client, headers } = makeSSRClient(request);
+  const { client } = makeSSRClient(request);
   const job = await getJobById(client, { jobId: params.jobId });
   return { job };
 };
@@ -20,10 +20,10 @@ export default function JobPage({ loaderData }: Route.ComponentProps) {
   return (
     <div>
       <div className="bg-gradient-to-tr from-primary/80 to-primary/10 h-60 w-full rounded-lg"></div>
-      <div className="grid grid-cols-6 -mt-20 gap-20 items-start">
-        <div className="col-span-4 space-y-10">
+      <div className="grid grid-cols-1  md:grid-cols-6 -mt-20 md:gap-20 items-start">
+        <div className="md:col-span-4 space-y-10">
           <div>
-            <div className="size-40 bg-white rounded-full  overflow-hidden relative left-10">
+            <div className="size-32 md:size-40 bg-white rounded-full overflow-hidden relative md:left-10 md:right-auto left-auto right-auto mx-auto md:mx-0">
               <img src={loaderData.job.company_logo} className="object-cover" />
             </div>
             <h1 className="text-4xl font-bold mt-5">
@@ -74,7 +74,7 @@ export default function JobPage({ loaderData }: Route.ComponentProps) {
             </ul>
           </div>
         </div>
-        <div className="col-span-2 space-y-5 mt-32 sticky top-20 p-6 border rounded-lg">
+        <div className="md:col-span-2 space-y-5 md:mt-32 sticky top-20 p-6 border rounded-lg">
           <div className="flex flex-col">
             <span className=" text-sm text-muted-foreground">Avg. Salary</span>
             <span className="text-2xl font-medium">
@@ -95,12 +95,17 @@ export default function JobPage({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="flex">
             <span className=" text-sm text-muted-foreground">
-              Posted {DateTime.fromISO(loaderData.job.created_at).toRelative()}
+              Posted{" "}
+              {DateTime.fromISO(loaderData.job.created_at, {
+                zone: "utc",
+              }).toRelative()}
             </span>
             <DotIcon className="size-4" />
-            <span className=" text-sm text-muted-foreground">395 views</span>
+            {/* <span className=" text-sm text-muted-foreground">395 views</span> */}
           </div>
-          <Button className="w-full">Apply Now</Button>
+          <Button className="w-full cursor-not-allowed hover:*">
+            <LockIcon className="size-4" /> Applications Closed
+          </Button>
         </div>
       </div>
     </div>

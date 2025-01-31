@@ -1,6 +1,6 @@
 import { Hero } from "~/common/components/hero";
 import { CategoryCard } from "../components/category-card";
-import { Route } from "./+types/categories-page";
+import type { Route } from "./+types/categories-page";
 import { getCategories } from "../queries";
 import { makeSSRClient } from "~/supa-client";
 
@@ -19,7 +19,7 @@ export default function CategoriesPage({ loaderData }: Route.ComponentProps) {
   return (
     <div className="space-y-10">
       <Hero title="Categories" subtitle="Browse products by category" />
-      <div className="grid grid-cols-4 gap-10">
+      <div className="grid md:grid-cols-4 gap-4 md:gap-10">
         {loaderData.categories.map((category) => (
           <CategoryCard
             key={category.category_id}

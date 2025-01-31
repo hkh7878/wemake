@@ -1,5 +1,5 @@
 import { makeSSRClient } from "~/supa-client";
-import { Route } from "./+types/send-message-page";
+import type { Route } from "./+types/send-message-page";
 import { getLoggedInUserId, getUserProfile } from "../queries";
 import { sendMessage } from "../mutations";
 import { z } from "zod";

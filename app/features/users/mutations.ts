@@ -1,5 +1,5 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "~/supa-client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/supa-client";
 
 export const updateUser = async (
   client: SupabaseClient<Database>,
@@ -108,5 +108,30 @@ export const sendMessage = async (
       content,
     });
     return roomData.message_room_id;
+  }
+};
+
+export const toggleFollow = async (
+  client: SupabaseClient<Database>,
+  { userId, targetId }: { userId: string; targetId: string }
+) => {
+  const { count, error } = await client
+    .from("follows")
+    .select("*", { count: "exact", head: true })
+    .eq("follower_id", userId)
+    .eq("following_id", targetId);
+  if (error) {
+    throw error;
+  }
+  if (count === 0) {
+    await client
+      .from("follows")
+      .insert({ follower_id: userId, following_id: targetId });
+  } else {
+    await client
+      .from("follows")
+      .delete()
+      .eq("follower_id", userId)
+      .eq("following_id", targetId);
   }
 };

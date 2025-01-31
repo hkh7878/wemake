@@ -2,10 +2,8 @@ import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { z } from "zod";
 import { insertIdeas } from "../mutations";
-import { adminClient } from "~/supa-client";
-import { Route } from "./+types/generate-idea-page";
-
-const openai = new OpenAI();
+import { makeAdminClient } from "~/supa-client";
+import type { Route } from "./+types/generate-idea-page";
 
 const IdeaSchema = z.object({
   title: z.string(),
@@ -29,6 +27,7 @@ const ResponseSchema = z.object({
 });
 
 export const action = async ({ request }: Route.ActionArgs) => {
+  const openai = new OpenAI();
   if (request.method !== "POST") {
     return new Response(null, { status: 404 });
   }
@@ -67,7 +66,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
       { status: 400 }
     );
   }
-  await insertIdeas(adminClient, descriptions);
+  await insertIdeas(makeAdminClient(), descriptions);
   return Response.json({
     ok: true,
   });

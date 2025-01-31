@@ -1,6 +1,6 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import { Database } from "~/supa-client";
+import type { Database } from "~/supa-client";
 import { formSchema } from "./pages/submit-team-page";
 
 export const createTeam = async (

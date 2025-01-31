@@ -1,7 +1,6 @@
 import { Button } from "~/common/components/ui/button";
-import { Input } from "~/common/components/ui/input";
-import { Route } from "./+types/otp-start-page";
-import { Form, redirect, useNavigate, useNavigation } from "react-router";
+import type { Route } from "./+types/otp-start-page";
+import { Form, redirect, useNavigation } from "react-router";
 import InputPair from "~/common/components/input-pair";
 import { z } from "zod";
 import { makeSSRClient } from "~/supa-client";
@@ -16,26 +15,9 @@ const formSchema = z.object({
 });
 
 export const action = async ({ request }: Route.ActionArgs) => {
-  const formData = await request.formData();
-  const { data, success } = formSchema.safeParse(Object.fromEntries(formData));
-  if (!success) {
-    return { error: "Invalid phone number" };
-  }
-  const { phone } = data;
-
-  const { client } = makeSSRClient(request);
-
-  const { error } = await client.auth.signInWithOtp({
-    phone,
-    options: {
-      shouldCreateUser: true,
-    },
-  });
-  if (error) {
-    return { error: "Failed to send OTP" };
-  }
-
-  return redirect(`/auth/otp/complete?phone=${phone}`);
+  return {
+    error: "OTP is disabled for this demo.",
+  };
 };
 
 export default function OtpStartPage({ actionData }: Route.ComponentProps) {

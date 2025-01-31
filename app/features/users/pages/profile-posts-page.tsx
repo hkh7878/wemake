@@ -1,5 +1,5 @@
 import { PostCard } from "~/features/community/components/post-card";
-import { Route } from "./+types/profile-posts-page";
+import type { Route } from "./+types/profile-posts-page";
 import { getUserPosts } from "../queries";
 import { makeSSRClient } from "~/supa-client";
 

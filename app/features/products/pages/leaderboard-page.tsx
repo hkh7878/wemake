@@ -1,5 +1,5 @@
 import { Hero } from "~/common/components/hero";
-import { Route } from "./+types/leaderboard-page";
+import type { Route } from "./+types/leaderboard-page";
 import { Button } from "~/common/components/ui/button";
 import { ProductCard } from "../components/product-card";
 import { Link } from "react-router";
@@ -49,7 +49,7 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
         title="Leaderboards"
         subtitle="The most popular products on wemake"
       />
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         <div>
           <h2 className="text-3xl font-bold leading-tight tracking-tight">
             Daily Leaderboard
@@ -66,6 +66,8 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
             description={product.tagline}
             reviewsCount={product.reviews}
             viewsCount={product.views}
+            promotedFrom={product.promoted_from}
+            isUpvoted={product.is_upvoted}
             votesCount={product.upvotes}
           />
         ))}
@@ -75,7 +77,7 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
           </Link>
         </Button>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         <div>
           <h2 className="text-3xl font-bold leading-tight tracking-tight">
             Weekly Leaderboard
@@ -93,6 +95,8 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
             reviewsCount={product.reviews}
             viewsCount={product.views}
             votesCount={product.upvotes}
+            isUpvoted={product.is_upvoted}
+            promotedFrom={product.promoted_from}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">
@@ -101,7 +105,7 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
           </Link>
         </Button>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         <div>
           <h2 className="text-3xl font-bold leading-tight tracking-tight">
             Monthly Leaderboard
@@ -119,6 +123,8 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
             reviewsCount={product.reviews}
             viewsCount={product.views}
             votesCount={product.upvotes}
+            isUpvoted={product.is_upvoted}
+            promotedFrom={product.promoted_from}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">
@@ -127,7 +133,7 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
           </Link>
         </Button>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         <div>
           <h2 className="text-3xl font-bold leading-tight tracking-tight">
             Yearly Leaderboard
@@ -145,6 +151,8 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
             reviewsCount={product.reviews}
             viewsCount={product.views}
             votesCount={product.upvotes}
+            isUpvoted={product.is_upvoted}
+            promotedFrom={product.promoted_from}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">

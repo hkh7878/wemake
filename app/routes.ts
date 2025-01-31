@@ -41,11 +41,11 @@ export default [
     ]),
     route("/search", "features/products/pages/search-page.tsx"),
     route("/submit", "features/products/pages/submit-product-page.tsx"),
-    route("/promote", "features/products/pages/promote-page.tsx"),
-    route(
-      "/promote/success",
-      "features/products/pages/promote-success-page.tsx"
-    ),
+    ...prefix("/promote", [
+      index("features/products/pages/promote-page.tsx"),
+      route("/success", "features/products/pages/promote-success-page.tsx"),
+      route("/fail", "features/products/pages/promote-fail-page.tsx"),
+    ]),
     ...prefix("/:productId", [
       index("features/products/pages/product-redirect-page.tsx"),
       layout("features/products/layouts/product-overview-layout.tsx", [
@@ -55,17 +55,29 @@ export default [
         ]),
       ]),
       route("/visit", "features/products/pages/product-visit-page.tsx"),
+      route("/upvote", "features/products/pages/product-upvote-page.tsx"),
     ]),
   ]),
   ...prefix("/ideas", [
     index("features/ideas/pages/ideas-page.tsx"),
-    route("/:ideaId", "features/ideas/pages/idea-page.tsx"),
+    ...prefix("/:ideaId", [
+      index("features/ideas/pages/idea-page.tsx"),
+      route("/like", "features/ideas/pages/like-idea-page.tsx"),
+      ...prefix("/claim", [
+        route("/success", "features/ideas/pages/claim-idea-success.tsx"),
+        route("/fail", "features/ideas/pages/claim-idea-fail.tsx"),
+      ]),
+    ]),
     route("/generate", "features/ideas/pages/generate-idea-page.tsx"),
   ]),
   ...prefix("/jobs", [
     index("features/jobs/pages/jobs-page.tsx"),
     route("/:jobId", "features/jobs/pages/job-page.tsx"),
-    route("/submit", "features/jobs/pages/submit-job-page.tsx"),
+    ...prefix("/submit", [
+      index("features/jobs/pages/submit-job-page.tsx"),
+      route("/success", "features/jobs/pages/submit-job-success.tsx"),
+      route("/fail", "features/jobs/pages/submit-job-fail.tsx"),
+    ]),
   ]),
   ...prefix("/auth", [
     layout("features/auth/layouts/auth-layout.tsx", [
@@ -126,5 +138,6 @@ export default [
     ]),
     route("/messages", "features/users/pages/send-message-page.tsx"),
     route("/welcome", "features/users/pages/welcome-page.tsx"),
+    route("/follow", "features/users/pages/follow-page.tsx"),
   ]),
 ] satisfies RouteConfig;

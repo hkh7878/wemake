@@ -26,11 +26,13 @@ export default function AuthButtons() {
             Github
           </Link>
         </Button>
-        <Button variant="outline" className="w-full" asChild>
-          <Link to="/auth/otp/start">
-            <LockIcon className="w-4 h-4" />
-            OTP
-          </Link>
+        <Button
+          variant="outline"
+          className="w-full cursor-not-allowed"
+          disabled
+        >
+          <LockIcon className="w-4 h-4" />
+          OTP
         </Button>
       </div>
     </div>

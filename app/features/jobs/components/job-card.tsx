@@ -34,8 +34,8 @@ export function JobCard({
   salary,
 }: JobCardProps) {
   return (
-    <Link to={`/jobs/${id}`}>
-      <Card className="bg-transparent transition-colors hover:bg-card/50">
+    <Link to={`/jobs/${id}`} className="block w-full">
+      <Card className="bg-transparent w-full transition-colors hover:bg-card/50">
         <CardHeader>
           <div className="flex items-center gap-4 mb-4">
             <img
@@ -46,7 +46,9 @@ export function JobCard({
             <div className="space-x-2">
               <span className="text-accent-foreground">{company}</span>
               <span className="text-xs text-muted-foreground">
-                {DateTime.fromISO(postedAt).toRelative()}
+                {DateTime.fromISO(postedAt, {
+                  zone: "utc",
+                }).toRelative()}
               </span>
             </div>
           </div>

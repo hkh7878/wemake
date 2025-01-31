@@ -32,9 +32,9 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   Settings.defaultLocale = "ko";
-  Settings.defaultZone = "Asia/Seoul";
+  Settings.defaultZone = "utc";
   return (
-    <html lang="en" className="">
+    <html lang="en" className="dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -71,7 +71,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
   return (
     <div
       className={cn({
-        "py-28 px-5 md:px-20": !pathname.includes("/auth/"),
+        "py-20 md:py-40 px-5 md:px-20": !pathname.includes("/auth/"),
         "transition-opacity animate-pulse": isLoading,
       })}
     >
@@ -92,6 +92,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
           userId: loaderData.user?.id,
           username: loaderData.profile?.username,
           avatar: loaderData.profile?.avatar,
+          email: loaderData.user?.email,
         }}
       />
     </div>

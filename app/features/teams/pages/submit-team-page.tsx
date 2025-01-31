@@ -1,5 +1,5 @@
 import { Hero } from "~/common/components/hero";
-import { Route } from "./+types/submit-team-page";
+import type { Route } from "./+types/submit-team-page";
 import { Form, redirect } from "react-router";
 import { Button } from "~/common/components/ui/button";
 import InputPair from "~/common/components/input-pair";
@@ -52,7 +52,7 @@ export default function SubmitTeamPage({ actionData }: Route.ComponentProps) {
         className="max-w-screen-2xl flex flex-col items-center gap-10 mx-auto"
         method="post"
       >
-        <div className="grid grid-cols-3 w-full gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-10">
           <InputPair
             label="What is the name of your product?"
             description="(20 characters max)"

@@ -39,7 +39,9 @@ export default function MessageRoomCard({
             <div className="flex flex-col">
               <span className="text-sm">{name}</span>
               <span className="text-xs text-muted-foreground">
-                {lastMessage}
+                {lastMessage.length > 30
+                  ? lastMessage.slice(0, 30) + "..."
+                  : lastMessage}
               </span>
             </div>
           </div>

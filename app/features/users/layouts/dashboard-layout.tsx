@@ -9,10 +9,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
+  SidebarTrigger,
 } from "~/common/components/ui/sidebar";
 import { makeSSRClient } from "~/supa-client";
 import { getLoggedInUserId, getProductsByUserId } from "../queries";
-import { Route } from "./+types/dashboard-layout";
+import type { Route } from "./+types/dashboard-layout";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const { client } = await makeSSRClient(request);
@@ -59,6 +60,13 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
           <SidebarGroup>
             <SidebarGroupLabel>Product Analytics</SidebarGroupLabel>
             <SidebarMenu>
+              {loaderData.products.length === 0 && (
+                <div className="text-muted-foreground text-sm">
+                  <span>
+                    No products yet, create a product to start tracking!
+                  </span>
+                </div>
+              )}
               {loaderData.products.map((product) => (
                 <SidebarMenuItem key={product.product_id}>
                   <SidebarMenuButton
@@ -79,7 +87,8 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      <div className="w-full h-full">
+      <div className="w-full flex md:block gap-5 md:gap-0 h-full">
+        <SidebarTrigger className="md:hidden" />
         <Outlet />
       </div>
     </SidebarProvider>

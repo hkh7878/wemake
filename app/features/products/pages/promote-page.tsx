@@ -1,16 +1,22 @@
 import { Hero } from "~/common/components/hero";
-import { Route } from "./+types/promote-page";
+import type { Route } from "./+types/promote-page";
 import SelectPair from "~/common/components/select-pair";
 import { Calendar } from "~/common/components/ui/calendar";
 import { useEffect, useRef, useState } from "react";
 import { Label } from "~/common/components/ui/label";
-import { DateRange } from "react-day-picker";
+import type { DateRange } from "react-day-picker";
 import { DateTime } from "luxon";
 import { Button } from "~/common/components/ui/button";
 import {
   loadTossPayments,
-  TossPaymentsWidgets,
+  type TossPaymentsWidgets,
 } from "@tosspayments/tosspayments-sdk";
+import { makeSSRClient } from "~/supa-client";
+import {
+  getLoggedInUserId,
+  getUserById,
+  getUserProducts,
+} from "~/features/users/queries";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -19,7 +25,17 @@ export const meta: Route.MetaFunction = () => {
   ];
 };
 
-export default function PromotePage() {
+export const loader = async ({ request }: Route.LoaderArgs) => {
+  const { client } = makeSSRClient(request);
+  const loggedInUserId = await getLoggedInUserId(client);
+  const user = await getUserById(client, { id: loggedInUserId });
+  const products = await getUserProducts(client, {
+    username: user.username,
+  });
+  return { products };
+};
+
+export default function PromotePage({ loaderData }: Route.ComponentProps) {
   const [promotionPeriod, setPromotionPeriod] = useState<
     DateRange | undefined
   >();
@@ -69,8 +85,11 @@ export default function PromotePage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const product = formData.get("product") as string;
-    if (!product || !promotionPeriod?.to || !promotionPeriod?.from) return;
+    const productId = formData.get("productId") as string;
+    if (!productId || !promotionPeriod?.to || !promotionPeriod?.from) return;
+    const productName = loaderData.products.find(
+      (p) => p.product_id.toString() === productId
+    )?.name;
     await widgets.current?.requestPayment({
       orderId: crypto.randomUUID(),
       orderName: `WeMake Promotion`,
@@ -78,7 +97,8 @@ export default function PromotePage() {
       customerName: "Nico",
       customerMobilePhone: "01012345678",
       metadata: {
-        product,
+        productName,
+        productId,
         promotionFrom: DateTime.fromJSDate(promotionPeriod.from).toISO(),
         promotionTo: DateTime.fromJSDate(promotionPeriod.to).toISO(),
       },
@@ -92,20 +112,21 @@ export default function PromotePage() {
         title="Promote Your Product"
         subtitle="Boost your product's visibility."
       />
-      <form onSubmit={handleSubmit} className="grid grid-cols-6 gap-10">
-        <div className="col-span-3 mx-auto w-1/2 flex flex-col gap-10 items-start">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-6 gap-10"
+      >
+        <div className="col-span-3 mx-auto md:w-1/2 flex flex-col gap-10 items-start">
           <SelectPair
             required
             label="Select a product"
             description="Select the product you want to promote."
-            name="product"
+            name="productId"
             placeholder="Select a product"
-            options={[
-              {
-                label: "AI Dark Mode Maker",
-                value: "ai-dark-mode-maker",
-              },
-            ]}
+            options={loaderData.products.map((product) => ({
+              label: product.name,
+              value: product.product_id.toString(),
+            }))}
           />
           <div className="flex flex-col gap-2 items-center w-full">
             <Label className="flex flex-col gap-1">
@@ -123,10 +144,10 @@ export default function PromotePage() {
             />
           </div>
         </div>
-        <aside className="col-span-3 px-20 flex flex-col items-center">
+        <aside className="col-span-3 px-5 md:px-20 flex flex-col items-center bg-white py-10 rounded-lg">
           <div id="toss-payment-methods" className="w-full" />
           <div id="toss-payment-agreement" />
-          <Button className="w-full" disabled={totalDays === 0}>
+          <Button className="w-full" size="lg" disabled={totalDays === 0}>
             Checkout (
             {(totalDays * 20000).toLocaleString("ko-KR", {
               style: "currency",

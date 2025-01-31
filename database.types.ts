@@ -79,10 +79,24 @@ export type Database = {
             referencedColumns: ["profile_id"]
           },
           {
+            foreignKeyName: "follows_follower_id_profiles_profile_id_fk"
+            columns: ["follower_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
+          {
             foreignKeyName: "follows_following_id_profiles_profile_id_fk"
             columns: ["following_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "follows_following_id_profiles_profile_id_fk"
+            columns: ["following_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
             referencedColumns: ["profile_id"]
           },
         ]
@@ -120,6 +134,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
+          {
+            foreignKeyName: "gpt_ideas_claimed_by_profiles_profile_id_fk"
+            columns: ["claimed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
         ]
       }
       gpt_ideas_likes: {
@@ -155,6 +176,13 @@ export type Database = {
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "gpt_ideas_likes_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
             referencedColumns: ["profile_id"]
           },
         ]
@@ -247,6 +275,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
+          {
+            foreignKeyName: "message_room_members_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
         ]
       }
       message_rooms: {
@@ -269,22 +304,22 @@ export type Database = {
           content: string
           created_at: string
           message_id: number
-          message_room_id: number | null
-          sender_id: string | null
+          message_room_id: number
+          sender_id: string
         }
         Insert: {
           content: string
           created_at?: string
           message_id?: never
-          message_room_id?: number | null
-          sender_id?: string | null
+          message_room_id: number
+          sender_id: string
         }
         Update: {
           content?: string
           created_at?: string
           message_id?: never
-          message_room_id?: number | null
-          sender_id?: string | null
+          message_room_id?: number
+          sender_id?: string
         }
         Relationships: [
           {
@@ -299,6 +334,13 @@ export type Database = {
             columns: ["sender_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_profiles_profile_id_fk"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
             referencedColumns: ["profile_id"]
           },
         ]
@@ -360,6 +402,13 @@ export type Database = {
             foreignKeyName: "notifications_product_id_products_product_id_fk"
             columns: ["product_id"]
             isOneToOne: false
+            referencedRelation: "product_list_view"
+            referencedColumns: ["product_id"]
+          },
+          {
+            foreignKeyName: "notifications_product_id_products_product_id_fk"
+            columns: ["product_id"]
+            isOneToOne: false
             referencedRelation: "product_overview_view"
             referencedColumns: ["product_id"]
           },
@@ -378,10 +427,24 @@ export type Database = {
             referencedColumns: ["profile_id"]
           },
           {
+            foreignKeyName: "notifications_source_id_profiles_profile_id_fk"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
+          {
             foreignKeyName: "notifications_target_id_profiles_profile_id_fk"
             columns: ["target_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "notifications_target_id_profiles_profile_id_fk"
+            columns: ["target_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
             referencedColumns: ["profile_id"]
           },
         ]
@@ -450,6 +513,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
+          {
+            foreignKeyName: "post_replies_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
         ]
       }
       post_upvotes: {
@@ -494,6 +564,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
+          {
+            foreignKeyName: "post_upvotes_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
         ]
       }
       posts: {
@@ -536,6 +613,13 @@ export type Database = {
             referencedColumns: ["profile_id"]
           },
           {
+            foreignKeyName: "posts_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
+          {
             foreignKeyName: "posts_topic_id_topics_topic_id_fk"
             columns: ["topic_id"]
             isOneToOne: false
@@ -569,6 +653,13 @@ export type Database = {
             foreignKeyName: "product_upvotes_product_id_products_product_id_fk"
             columns: ["product_id"]
             isOneToOne: false
+            referencedRelation: "product_list_view"
+            referencedColumns: ["product_id"]
+          },
+          {
+            foreignKeyName: "product_upvotes_product_id_products_product_id_fk"
+            columns: ["product_id"]
+            isOneToOne: false
             referencedRelation: "product_overview_view"
             referencedColumns: ["product_id"]
           },
@@ -586,6 +677,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
+          {
+            foreignKeyName: "product_upvotes_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
         ]
       }
       products: {
@@ -598,6 +696,8 @@ export type Database = {
           name: string
           product_id: number
           profile_id: string
+          promoted_from: string | null
+          promoted_to: string | null
           stats: Json
           tagline: string
           updated_at: string
@@ -612,6 +712,8 @@ export type Database = {
           name: string
           product_id?: never
           profile_id: string
+          promoted_from?: string | null
+          promoted_to?: string | null
           stats?: Json
           tagline: string
           updated_at?: string
@@ -626,6 +728,8 @@ export type Database = {
           name?: string
           product_id?: never
           profile_id?: string
+          promoted_from?: string | null
+          promoted_to?: string | null
           stats?: Json
           tagline?: string
           updated_at?: string
@@ -647,10 +751,24 @@ export type Database = {
             referencedColumns: ["profile_id"]
           },
           {
+            foreignKeyName: "products_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
+          {
             foreignKeyName: "products_to_profiles"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "products_to_profiles"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
             referencedColumns: ["profile_id"]
           },
         ]
@@ -730,6 +848,13 @@ export type Database = {
             foreignKeyName: "reviews_product_id_products_product_id_fk"
             columns: ["product_id"]
             isOneToOne: false
+            referencedRelation: "product_list_view"
+            referencedColumns: ["product_id"]
+          },
+          {
+            foreignKeyName: "reviews_product_id_products_product_id_fk"
+            columns: ["product_id"]
+            isOneToOne: false
             referencedRelation: "product_overview_view"
             referencedColumns: ["product_id"]
           },
@@ -745,6 +870,13 @@ export type Database = {
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "reviews_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
             referencedColumns: ["profile_id"]
           },
         ]
@@ -794,6 +926,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
+          {
+            foreignKeyName: "teams_team_leader_id_profiles_profile_id_fk"
+            columns: ["team_leader_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
         ]
       }
       topics: {
@@ -825,8 +964,10 @@ export type Database = {
           author_created_at: string | null
           author_name: string | null
           author_role: Database["public"]["Enums"]["role"] | null
+          author_username: string | null
           content: string | null
           created_at: string | null
+          is_following: boolean | null
           is_upvoted: boolean | null
           post_id: number | null
           products: number | null
@@ -860,6 +1001,7 @@ export type Database = {
           gpt_idea_id: number | null
           idea: string | null
           is_claimed: boolean | null
+          is_liked: boolean | null
           likes: number | null
           views: number | null
         }
@@ -884,6 +1026,13 @@ export type Database = {
           },
           {
             foreignKeyName: "message_room_members_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "message_room_members_profile_id_profiles_profile_id_fk"
             columns: ["other_profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -893,7 +1042,98 @@ export type Database = {
             foreignKeyName: "message_room_members_profile_id_profiles_profile_id_fk"
             columns: ["profile_id"]
             isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "message_room_members_profile_id_profiles_profile_id_fk"
+            columns: ["other_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
+        ]
+      }
+      product_list_view: {
+        Row: {
+          category_id: number | null
+          created_at: string | null
+          is_upvoted: boolean | null
+          name: string | null
+          product_id: number | null
+          profile_id: string | null
+          promoted_from: string | null
+          promoted_to: string | null
+          reviews: number | null
+          stats: Json | null
+          tagline: string | null
+          upvotes: number | null
+          views: number | null
+        }
+        Insert: {
+          category_id?: number | null
+          created_at?: string | null
+          is_upvoted?: never
+          name?: string | null
+          product_id?: number | null
+          profile_id?: string | null
+          promoted_from?: string | null
+          promoted_to?: string | null
+          reviews?: never
+          stats?: Json | null
+          tagline?: string | null
+          upvotes?: never
+          views?: never
+        }
+        Update: {
+          category_id?: number | null
+          created_at?: string | null
+          is_upvoted?: never
+          name?: string | null
+          product_id?: number | null
+          profile_id?: string | null
+          promoted_from?: string | null
+          promoted_to?: string | null
+          reviews?: never
+          stats?: Json | null
+          tagline?: string | null
+          upvotes?: never
+          views?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_categories_category_id_fk"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["category_id"]
+          },
+          {
+            foreignKeyName: "products_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "products_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "products_to_profiles"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "products_to_profiles"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_view"
             referencedColumns: ["profile_id"]
           },
         ]
@@ -914,8 +1154,57 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles_view: {
+        Row: {
+          avatar: string | null
+          bio: string | null
+          created_at: string | null
+          headline: string | null
+          is_following: boolean | null
+          name: string | null
+          profile_id: string | null
+          role: Database["public"]["Enums"]["role"] | null
+          stats: Json | null
+          updated_at: string | null
+          username: string | null
+          views: Json | null
+        }
+        Insert: {
+          avatar?: string | null
+          bio?: string | null
+          created_at?: string | null
+          headline?: string | null
+          is_following?: never
+          name?: string | null
+          profile_id?: string | null
+          role?: Database["public"]["Enums"]["role"] | null
+          stats?: Json | null
+          updated_at?: string | null
+          username?: string | null
+          views?: Json | null
+        }
+        Update: {
+          avatar?: string | null
+          bio?: string | null
+          created_at?: string | null
+          headline?: string | null
+          is_following?: never
+          name?: string | null
+          profile_id?: string | null
+          role?: Database["public"]["Enums"]["role"] | null
+          stats?: Json | null
+          updated_at?: string | null
+          username?: string | null
+          views?: Json | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
+      cleanup: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       get_dashboard_stats: {
         Args: {
           user_id: string
@@ -948,6 +1237,12 @@ export type Database = {
         Args: {
           event_type: Database["public"]["Enums"]["event_type"]
           event_data: Json
+        }
+        Returns: undefined
+      }
+      track_idea_view: {
+        Args: {
+          p_idea_id: number
         }
         Returns: undefined
       }

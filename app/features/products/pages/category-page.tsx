@@ -1,7 +1,7 @@
 import { Hero } from "~/common/components/hero";
 import { ProductCard } from "../components/product-card";
 import ProductPagination from "~/common/components/product-pagination";
-import { Route } from "./+types/category-page";
+import type { Route } from "./+types/category-page";
 import { z } from "zod";
 import {
   getCategory,
@@ -58,6 +58,8 @@ export default function CategoryPage({ loaderData }: Route.ComponentProps) {
             reviewsCount={product.reviews}
             viewsCount={product.views}
             votesCount={product.upvotes}
+            isUpvoted={product.is_upvoted}
+            promotedFrom={product.promoted_from}
           />
         ))}
       </div>

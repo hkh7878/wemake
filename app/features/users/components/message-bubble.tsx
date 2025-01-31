@@ -31,7 +31,7 @@ export function MessageBubble({
       </Avatar>
       <div
         className={cn({
-          "rounded-md p-4 text-sm w-1/4": true,
+          "rounded-md p-4 text-sm md:w-1/4": true,
           "bg-accent rounded-br-none": isCurrentUser,
           "bg-primary text-primary-foreground rounded-bl-none": !isCurrentUser,
         })}

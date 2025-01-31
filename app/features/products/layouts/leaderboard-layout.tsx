@@ -1,6 +1,6 @@
-import { Outlet, data } from "react-router";
+import { Outlet, data, useOutletContext } from "react-router";
 import { z } from "zod";
-import { Route } from "./+types/leaderboard-layout";
+import type { Route } from "./+types/leaderboard-layout";
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().min(1).optional().default(1),
@@ -23,5 +23,8 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 };
 
 export default function LeaderboardLayout() {
-  return <Outlet />;
+  const { isLoggedIn } = useOutletContext<{
+    isLoggedIn: boolean;
+  }>();
+  return <Outlet context={{ isLoggedIn }} />;
 }

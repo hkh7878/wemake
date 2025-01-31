@@ -1,5 +1,5 @@
 import { LoaderCircle } from "lucide-react";
-import { Route } from "./+types/otp-complete-page";
+import type { Route } from "./+types/otp-complete-page";
 import { Form, redirect, useNavigation, useSearchParams } from "react-router";
 import { z } from "zod";
 import InputPair from "~/common/components/input-pair";

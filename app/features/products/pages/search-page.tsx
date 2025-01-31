@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { Route } from "./+types/search-page";
+import type { Route } from "./+types/search-page";
 import { Hero } from "~/common/components/hero";
 import { ProductCard } from "../components/product-card";
 import ProductPagination from "~/common/components/product-pagination";
-import { Form } from "react-router";
+import { Form, Link, useSearchParams } from "react-router";
 import { Input } from "~/common/components/ui/input";
 import { Button } from "~/common/components/ui/button";
 import { getProductsBySearch, getPagesBySearch } from "../queries";
@@ -44,6 +44,8 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function SearchPage({ loaderData }: Route.ComponentProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
   return (
     <div className="space-y-10">
       <Hero
@@ -68,10 +70,21 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
             reviewsCount={product.reviews}
             viewsCount={product.views}
             votesCount={product.upvotes}
+            promotedFrom={product.promoted_from}
+            isUpvoted={product.is_upvoted}
           />
         ))}
+        {query && loaderData.products.length === 0 && (
+          <div className="col-span-full">
+            <p className=" text-center font-semibold text-muted-foreground">
+              No products found for "{query}".
+            </p>
+          </div>
+        )}
       </div>
-      <ProductPagination totalPages={loaderData.totalPages} />
+      {loaderData.products.length > 0 && (
+        <ProductPagination totalPages={loaderData.totalPages} />
+      )}
     </div>
   );
 }

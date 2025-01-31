@@ -1,5 +1,5 @@
 import { Hero } from "~/common/components/hero";
-import { Route } from "./+types/teams-page";
+import type { Route } from "./+types/teams-page";
 import { TeamCard } from "../components/team-card";
 import { getTeams } from "../queries";
 import { makeSSRClient } from "~/supa-client";
@@ -16,7 +16,7 @@ export default function TeamsPage({ loaderData }: Route.ComponentProps) {
   return (
     <div className="space-y-20">
       <Hero title="Teams" subtitle="Find a team looking for a new member." />
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {loaderData.teams.map((team) => (
           <TeamCard
             key={team.team_id}

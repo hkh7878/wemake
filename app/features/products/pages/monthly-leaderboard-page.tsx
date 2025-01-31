@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { Route } from "./+types/monthly-leaderboard-page";
+import type { Route } from "./+types/monthly-leaderboard-page";
 import { data, isRouteErrorResponse, Link } from "react-router";
 import { z } from "zod";
 import { Hero } from "~/common/components/hero";
@@ -8,6 +8,7 @@ import { Button } from "~/common/components/ui/button";
 import ProductPagination from "~/common/components/product-pagination";
 import { getProductPagesByDateRange, getProductsByDateRange } from "../queries";
 import { makeSSRClient } from "~/supa-client";
+import { PAGE_SIZE } from "../contants";
 
 const paramsSchema = z.object({
   year: z.coerce.number(),
@@ -72,7 +73,7 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
   const products = await getProductsByDateRange(client, {
     startDate: date.startOf("month"),
     endDate: date.endOf("month"),
-    limit: 15,
+    limit: PAGE_SIZE,
     page: Number(url.searchParams.get("page") || 1),
   });
   const totalPages = await getProductPagesByDateRange(client, {
@@ -140,8 +141,21 @@ export default function MonthlyLeaderboardPage({
             reviewsCount={product.reviews}
             viewsCount={product.views}
             votesCount={product.upvotes}
+            isUpvoted={product.is_upvoted}
+            promotedFrom={product.promoted_from}
           />
         ))}
+        {loaderData.products.length === 0 && (
+          <div className="col-span-full">
+            <p className=" text-center font-semibold text-muted-foreground">
+              No products found, go back to{" "}
+              <Button variant={"link"} asChild className="p-0 text-lg">
+                <Link to="/products/leaderboards">leaderboards</Link>
+              </Button>{" "}
+              page.
+            </p>
+          </div>
+        )}
       </div>
       <ProductPagination totalPages={loaderData.totalPages} />
     </div>

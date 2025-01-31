@@ -4,17 +4,13 @@ import {
   CardHeader,
   CardTitle,
 } from "~/common/components/ui/card";
-import { Route } from "./+types/message-page";
+import type { Route } from "./+types/message-page";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "~/common/components/ui/avatar";
-import {
-  Form,
-  ShouldRevalidateFunctionArgs,
-  useOutletContext,
-} from "react-router";
+import { Form, useOutletContext } from "react-router";
 import { Textarea } from "~/common/components/ui/textarea";
 import { Button } from "~/common/components/ui/button";
 import { SendIcon } from "lucide-react";
@@ -25,8 +21,9 @@ import {
   getRoomsParticipant,
   sendMessageToRoom,
 } from "../queries";
-import { browserClient, Database, makeSSRClient } from "~/supa-client";
+import { browserClient, makeSSRClient } from "~/supa-client";
 import { useEffect, useRef, useState } from "react";
+import type { Database } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Message | wemake" }];
@@ -59,6 +56,13 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
     message: message as string,
     userId,
   });
+  setTimeout(async () => {
+    await sendMessageToRoom(client, {
+      messageRoomId: params.messageRoomId,
+      message: "I got your message, this message is sent by the server",
+      userId: "2a040d91-8acf-40d1-8c07-42471ea091cb",
+    });
+  }, 2000);
   return {
     ok: true,
   };

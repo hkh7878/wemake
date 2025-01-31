@@ -1,5 +1,5 @@
 import { ProductCard } from "~/features/products/components/product-card";
-import { Route } from "./+types/profile-products-page";
+import type { Route } from "./+types/profile-products-page";
 import { getUserProducts } from "../queries";
 import { makeSSRClient } from "~/supa-client";
 
@@ -29,6 +29,8 @@ export default function ProfileProductsPage({
           reviewsCount={product.reviews}
           viewsCount={product.views}
           votesCount={product.upvotes}
+          isUpvoted={product.is_upvoted}
+          promotedFrom={product.promoted_from}
         />
       ))}
     </div>

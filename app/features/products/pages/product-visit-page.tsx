@@ -1,5 +1,5 @@
 import { makeSSRClient } from "~/supa-client";
-import { Route } from "./+types/product-visit-page";
+import type { Route } from "./+types/product-visit-page";
 import { redirect } from "react-router";
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
