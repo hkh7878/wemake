@@ -122,13 +122,15 @@ export default function IdeaPage({ loaderData }: Route.ComponentProps) {
           )}
         </div>
       </div>
-      <DialogContent>
-        <DialogHeader>
+      <DialogContent className="p-2.5 md:p-6">
+        <DialogHeader className="hidden">
           <DialogTitle>Claim idea</DialogTitle>
         </DialogHeader>
         <div>
-          Claim this idea and make it private for $100
-          <div className="mt-10 rounded-lg overflow-hidden bg-white">
+          <span className="hidden">
+            Claim this idea and make it private for $100
+          </span>
+          <div className="md:mt-10 rounded-lg overflow-hidden bg-white">
             <div id="toss-payment-methods" />
             <div id="toss-payment-agreement" />
           </div>

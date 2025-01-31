@@ -1,4 +1,4 @@
-import { makeSSRClient } from "~/supa-client";
+import { makeAdminClient, makeSSRClient } from "~/supa-client";
 
 import { getLoggedInUserId } from "~/features/users/queries";
 
@@ -46,9 +46,10 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   );
   const { client } = makeSSRClient(request);
   const userId = await getLoggedInUserId(client);
-  const idea = await getGptIdea(client, { ideaId: params.ideaId });
+  const adminClient = makeAdminClient();
+  const idea = await getGptIdea(adminClient, { ideaId: params.ideaId });
   if (!idea.is_claimed) {
-    await claimIdea(client, { ideaId: params.ideaId, userId });
+    await claimIdea(adminClient, { ideaId: params.ideaId, userId });
   }
   return redirect(`/my/dashboard/ideas`);
 };

@@ -130,7 +130,7 @@ export default function HomePage({ loaderData }: Route.ComponentProps) {
               <Marquee
                 pauseOnHover
                 vertical
-                className="[--duration:40s] flex  gap-5"
+                className="[--duration:40s] flex z-50  gap-5"
               >
                 {loaderData.ideas.map((idea) => (
                   <div className="md:w-96" key={idea.gpt_idea_id}>

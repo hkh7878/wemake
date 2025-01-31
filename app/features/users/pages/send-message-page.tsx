@@ -1,4 +1,4 @@
-import { makeSSRClient } from "~/supa-client";
+import { makeAdminClient, makeSSRClient } from "~/supa-client";
 import type { Route } from "./+types/send-message-page";
 import { getLoggedInUserId, getUserProfile } from "../queries";
 import { sendMessage } from "../mutations";
@@ -19,7 +19,8 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
   const { profile_id: toUserId } = await getUserProfile(client, {
     username: params.username,
   });
-  const messageRoomId = await sendMessage(client, {
+  const adminClient = makeAdminClient();
+  const messageRoomId = await sendMessage(adminClient, {
     fromUserId,
     toUserId,
     content: formData.get("content") as string,

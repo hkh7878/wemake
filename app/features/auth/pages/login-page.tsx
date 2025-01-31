@@ -59,7 +59,11 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
     navigation.state === "submitting" || navigation.state === "loading";
   return (
     <div className="flex flex-col relative items-center justify-center h-full">
-      <Button variant={"ghost"} asChild className="absolute right-8 top-8 ">
+      <Button
+        variant={"ghost"}
+        asChild
+        className="absolute hidden md:block right-8 top-8 "
+      >
         <Link to="/auth/join">Join</Link>
       </Button>
       <div className="flex items-center flex-col justify-center w-full max-w-md gap-10">

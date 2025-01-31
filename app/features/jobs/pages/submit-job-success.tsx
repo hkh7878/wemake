@@ -63,7 +63,6 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
   if (!data.mId) {
     return redirect("/jobs/submit");
   }
-  console.log(await response.json());
   const { job_id } = await createJob(client, { ...aData });
   return redirect(`/jobs/${job_id}`);
 };

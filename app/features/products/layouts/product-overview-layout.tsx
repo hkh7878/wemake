@@ -1,6 +1,12 @@
 import { StarIcon } from "lucide-react";
 import { ChevronUpIcon } from "lucide-react";
-import { Link, NavLink, Outlet } from "react-router";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useFetcher,
+  useOutletContext,
+} from "react-router";
 import { Button, buttonVariants } from "~/common/components/ui/button";
 import { cn } from "~/lib/utils";
 import type { Route } from "./+types/product-overview-layout";
@@ -28,6 +34,8 @@ export const loader = async ({
 export default function ProductOverviewLayout({
   loaderData,
 }: Route.ComponentProps) {
+  const fetcher = useFetcher();
+  const { isLoggedIn } = useOutletContext<{ isLoggedIn: boolean }>();
   return (
     <div className="space-y-10">
       <div className="flex flex-col md:flex-row gap-10 md:gap-0 justify-between">
@@ -77,13 +85,23 @@ export default function ProductOverviewLayout({
               Visit Website
             </Link>
           </Button>
-          <Button
-            size="lg"
-            className="md:text-lg w-full md:w-auto h-10 md:h-14 px-10 flex items-center gap-2"
+          <fetcher.Form
+            method="post"
+            action={`/products/${loaderData.product.product_id}/upvote`}
           >
-            <ChevronUpIcon className="size-4" />
-            Upvote ({loaderData.product.upvotes})
-          </Button>
+            <Button
+              size="lg"
+              className={cn({
+                "md:text-lg w-full md:w-auto h-10 md:h-14 px-10 flex items-center gap-2":
+                  true,
+                "border-white bg-white text-primary hover:bg-white/90":
+                  loaderData.product.is_upvoted,
+              })}
+            >
+              <ChevronUpIcon className="size-4" />
+              Upvote ({loaderData.product.upvotes})
+            </Button>
+          </fetcher.Form>
         </div>
       </div>
       <div className="flex gap-2.5">
@@ -118,6 +136,7 @@ export default function ProductOverviewLayout({
             description: loaderData.product.description,
             how_it_works: loaderData.product.how_it_works,
             review_count: loaderData.product.reviews,
+            isLoggedIn: isLoggedIn,
           }}
         />
       </div>

@@ -3,6 +3,7 @@ import {
   boolean,
   jsonb,
   pgEnum,
+  pgPolicy,
   pgSchema,
   pgTable,
   primaryKey,
@@ -10,8 +11,10 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
+import { authenticatedRole } from "drizzle-orm/supabase";
 import { products } from "../products/schema";
 import { posts } from "../community/schema";
+import { sql } from "drizzle-orm";
 
 export const users = pgSchema("auth").table("users", {
   id: uuid().primaryKey(),
@@ -116,6 +119,12 @@ export const messageRoomMembers = pgTable(
   },
   (table) => [
     primaryKey({ columns: [table.message_room_id, table.profile_id] }),
+    pgPolicy("message_room_members_policy", {
+      for: "select",
+      to: authenticatedRole,
+      as: "permissive",
+      using: sql`public.is_user_member(${table.message_room_id}, auth.uid())`,
+    }),
   ]
 );
 

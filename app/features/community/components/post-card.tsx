@@ -98,7 +98,7 @@ export function PostCard({
           </CardFooter>
         )}
         {expanded && (
-          <CardFooter className="hidden md:flex w-full  justify-end md:pb-0">
+          <CardFooter className="hidden md:flex  justify-end md:pb-0">
             <Button
               onClick={absorbClick}
               variant="outline"

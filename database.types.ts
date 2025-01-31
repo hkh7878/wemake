@@ -1144,6 +1144,7 @@ export type Database = {
           description: string | null
           how_it_works: string | null
           icon: string | null
+          is_upvoted: boolean | null
           name: string | null
           product_id: number | null
           reviews: string | null

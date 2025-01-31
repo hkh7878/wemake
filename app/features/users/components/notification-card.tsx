@@ -54,7 +54,7 @@ export function NotificationCard({
   return (
     <Card
       className={cn(
-        "md:min-w-[500px] w-full",
+        "md:min-w-[500px] max-w-[500px] w-full",
         optimiscitSeen ? "" : "border border-yellow-400"
       )}
     >
