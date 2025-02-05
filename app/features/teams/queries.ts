@@ -18,7 +18,8 @@ export const getTeams = async (
     )
     `
     )
-    .limit(limit);
+    .limit(limit)
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;

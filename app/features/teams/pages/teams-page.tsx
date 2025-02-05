@@ -8,7 +8,7 @@ export const meta: Route.MetaFunction = () => [{ title: "Teams | wemake" }];
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const { client, headers } = makeSSRClient(request);
-  const teams = await getTeams(client, { limit: 8 });
+  const teams = await getTeams(client, { limit: 100 });
   return { teams };
 };
 

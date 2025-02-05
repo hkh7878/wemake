@@ -7,7 +7,7 @@ import {
   AvatarImage,
 } from "~/common/components/ui/avatar";
 import { Badge } from "~/common/components/ui/badge";
-import { Form, Link } from "react-router";
+import { Form, Link, useOutletContext } from "react-router";
 import InputPair from "~/common/components/input-pair";
 import {
   Card,
@@ -29,6 +29,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 };
 
 export default function TeamPage({ loaderData }: Route.ComponentProps) {
+  const { userId } = useOutletContext<{ userId: string }>();
   return (
     <div className="space-y-20">
       <Hero title={`Join ${loaderData.team.team_leader.name}'s team`} />
@@ -111,25 +112,27 @@ export default function TeamPage({ loaderData }: Route.ComponentProps) {
               </Badge>
             </div>
           </div>
-          <Form
-            className="space-y-5"
-            method="post"
-            action={`/users/${loaderData.team.team_leader.username}/messages`}
-          >
-            <InputPair
-              label="Introduce yourself"
-              description="Tell us about yourself"
-              name="content"
-              type="text"
-              id="introduction"
-              required
-              textArea
-              placeholder="i.e. I'm a React Developer with 3 years of experience"
-            />
-            <Button type="submit" className="w-full">
-              Get in touch
-            </Button>
-          </Form>
+          {userId === loaderData.team.team_leader_id ? null : (
+            <Form
+              className="space-y-5"
+              method="post"
+              action={`/users/${loaderData.team.team_leader.username}/messages`}
+            >
+              <InputPair
+                label="Introduce yourself"
+                description="Tell us about yourself"
+                name="content"
+                type="text"
+                id="introduction"
+                required
+                textArea
+                placeholder="i.e. I'm a React Developer with 3 years of experience"
+              />
+              <Button type="submit" className="w-full">
+                Get in touch
+              </Button>
+            </Form>
+          )}
         </aside>
       </div>
     </div>
