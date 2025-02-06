@@ -173,161 +173,167 @@ export default function Navigation({
 }) {
   return (
     <Sheet>
-      <nav className="flex md:px-20 px-5 h-16 items-center justify-between backdrop-blur fixed top-0 left-0 right-0 z-50 bg-background/50">
-        <div className="flex items-center">
-          <Link to="/" className="font-bold tracking-tighter text-lg">
-            wemake
-          </Link>
-          <Separator
-            orientation="vertical"
-            className="h-6 hidden md:block mx-4"
-          />
-          <NavigationMenu className="hidden md:block">
-            <NavigationMenuList>
-              {menus.map((menu) => (
-                <NavigationMenuItem key={menu.name}>
-                  {menu.items ? (
-                    <>
-                      <NavigationMenuTrigger>
-                        <NavLink
-                          className={({ isActive }) =>
-                            cn(
-                              isActive
-                                ? "opacity-100"
-                                : "opacity-85 hover:text-opacity-100"
-                            )
-                          }
-                          to={menu.to}
-                        >
-                          {menu.name}
-                        </NavLink>
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="grid w-[600px] font-light gap-3 p-4 grid-cols-2">
-                          {menu.items?.map((item) => (
-                            <NavigationMenuItem
-                              key={item.name}
-                              className={cn([
-                                "select-none rounded-md transition-colors focus:bg-accent  hover:bg-accent",
-                                (item.to === "/products/promote" ||
-                                  item.to === "/jobs/submit") &&
-                                  "col-span-2 bg-primary/10 hover:bg-primary/20 focus:bg-primary/20",
-                              ])}
-                            >
-                              <NavigationMenuLink asChild>
-                                <Link
-                                  className="p-3 space-y-1 block leading-none no-underline outline-none"
-                                  to={item.to}
-                                >
-                                  <span className="text-sm font-medium leading-none">
-                                    {item.name}
-                                  </span>
-                                  <p className="text-sm leading-snug text-muted-foreground">
-                                    {item.description}
-                                  </p>
-                                </Link>
-                              </NavigationMenuLink>
-                            </NavigationMenuItem>
-                          ))}
-                        </ul>
-                      </NavigationMenuContent>
-                    </>
-                  ) : (
-                    <NavLink
-                      className={({ isActive }) =>
-                        cn(
-                          isActive
-                            ? "opacity-100"
-                            : "opacity-85 hover:text-opacity-100",
-                          navigationMenuTriggerStyle()
-                        )
-                      }
-                      to={menu.to}
-                    >
-                      {menu.name}
-                    </NavLink>
-                  )}
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+      <nav className="flex flex-col fixed top-0 left-0 right-0 z-50">
+        <div className="w-full py-2.5 text-xs font-bold text-center bg-primary text-primary-foreground z-10">
+          이 사이트는 데모 버전입니다. 모든 데이터는 3시간 동안만 유지되며, 이후
+          자동으로 삭제됩니다.
         </div>
-        {isLoggedIn ? (
-          <div className="md:flex hidden items-center gap-4">
-            <Button size="icon" variant="ghost" asChild className="relative">
-              <Link to="/my/notifications">
-                <BellIcon className="size-4" />
-                {hasNotifications && (
-                  <div className="absolute top-1.5 right-1.5 size-2 bg-red-500 rounded-full" />
-                )}
-              </Link>
-            </Button>
-            <Button size="icon" variant="ghost" asChild className="relative">
-              <Link to="/my/messages">
-                <MessageCircleIcon className="size-4" />
-                {hasMessages && (
-                  <div className="absolute top-1.5 right-1.5 size-2 bg-red-500 rounded-full" />
-                )}
-              </Link>
-            </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild className="cursor-pointer">
-                <Avatar>
-                  {avatar ? (
-                    <AvatarImage className="object-cover" src={avatar} />
-                  ) : (
-                    <AvatarFallback>{name?.[0]}</AvatarFallback>
+        <div className="flex md:px-20 px-5 h-16 items-center justify-between backdrop-blur bg-background/50">
+          <div className="flex items-center">
+            <Link to="/" className="font-bold tracking-tighter text-lg">
+              wemake
+            </Link>
+            <Separator
+              orientation="vertical"
+              className="h-6 hidden md:block mx-4"
+            />
+            <NavigationMenu className="hidden md:block">
+              <NavigationMenuList>
+                {menus.map((menu) => (
+                  <NavigationMenuItem key={menu.name}>
+                    {menu.items ? (
+                      <>
+                        <NavigationMenuTrigger>
+                          <NavLink
+                            className={({ isActive }) =>
+                              cn(
+                                isActive
+                                  ? "opacity-100"
+                                  : "opacity-85 hover:text-opacity-100"
+                              )
+                            }
+                            to={menu.to}
+                          >
+                            {menu.name}
+                          </NavLink>
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid w-[600px] font-light gap-3 p-4 grid-cols-2">
+                            {menu.items?.map((item) => (
+                              <NavigationMenuItem
+                                key={item.name}
+                                className={cn([
+                                  "select-none rounded-md transition-colors focus:bg-accent  hover:bg-accent",
+                                  (item.to === "/products/promote" ||
+                                    item.to === "/jobs/submit") &&
+                                    "col-span-2 bg-primary/10 hover:bg-primary/20 focus:bg-primary/20",
+                                ])}
+                              >
+                                <NavigationMenuLink asChild>
+                                  <Link
+                                    className="p-3 space-y-1 block leading-none no-underline outline-none"
+                                    to={item.to}
+                                  >
+                                    <span className="text-sm font-medium leading-none">
+                                      {item.name}
+                                    </span>
+                                    <p className="text-sm leading-snug text-muted-foreground">
+                                      {item.description}
+                                    </p>
+                                  </Link>
+                                </NavigationMenuLink>
+                              </NavigationMenuItem>
+                            ))}
+                          </ul>
+                        </NavigationMenuContent>
+                      </>
+                    ) : (
+                      <NavLink
+                        className={({ isActive }) =>
+                          cn(
+                            isActive
+                              ? "opacity-100"
+                              : "opacity-85 hover:text-opacity-100",
+                            navigationMenuTriggerStyle()
+                          )
+                        }
+                        to={menu.to}
+                      >
+                        {menu.name}
+                      </NavLink>
+                    )}
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+          {isLoggedIn ? (
+            <div className="md:flex hidden items-center gap-4">
+              <Button size="icon" variant="ghost" asChild className="relative">
+                <Link to="/my/notifications">
+                  <BellIcon className="size-4" />
+                  {hasNotifications && (
+                    <div className="absolute top-1.5 right-1.5 size-2 bg-red-500 rounded-full" />
                   )}
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel className="flex flex-col">
-                  <span className="font-medium">{name}</span>
-                  <span className="text-xs text-muted-foreground">
-                    @{username}
-                  </span>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
+                </Link>
+              </Button>
+              <Button size="icon" variant="ghost" asChild className="relative">
+                <Link to="/my/messages">
+                  <MessageCircleIcon className="size-4" />
+                  {hasMessages && (
+                    <div className="absolute top-1.5 right-1.5 size-2 bg-red-500 rounded-full" />
+                  )}
+                </Link>
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild className="cursor-pointer">
+                  <Avatar>
+                    {avatar ? (
+                      <AvatarImage className="object-cover" src={avatar} />
+                    ) : (
+                      <AvatarFallback>{name?.[0]}</AvatarFallback>
+                    )}
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel className="flex flex-col">
+                    <span className="font-medium">{name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      @{username}
+                    </span>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link to="/my/dashboard">
+                        <BarChart3Icon className="size-4 mr-2" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link to="/my/profile">
+                        <UserIcon className="size-4 mr-2" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link to="/my/settings">
+                        <SettingsIcon className="size-4 mr-2" />
+                        Settings
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link to="/my/dashboard">
-                      <BarChart3Icon className="size-4 mr-2" />
-                      Dashboard
+                    <Link to="/auth/logout">
+                      <LogOutIcon className="size-4 mr-2" />
+                      Logout
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link to="/my/profile">
-                      <UserIcon className="size-4 mr-2" />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link to="/my/settings">
-                      <SettingsIcon className="size-4 mr-2" />
-                      Settings
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild className="cursor-pointer">
-                  <Link to="/auth/logout">
-                    <LogOutIcon className="size-4 mr-2" />
-                    Logout
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        ) : (
-          <div className="md:flex hidden items-center gap-4">
-            <Button asChild variant="secondary">
-              <Link to="/auth/login">Login</Link>
-            </Button>
-            <Button asChild>
-              <Link to="/auth/join">Join</Link>
-            </Button>
-          </div>
-        )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <div className="md:flex hidden items-center gap-4">
+              <Button asChild variant="secondary">
+                <Link to="/auth/login">Login</Link>
+              </Button>
+              <Button asChild>
+                <Link to="/auth/join">Join</Link>
+              </Button>
+            </div>
+          )}
+        </div>
         <SheetTrigger className="md:hidden size-6">
           <MenuIcon />
         </SheetTrigger>

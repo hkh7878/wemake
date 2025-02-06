@@ -10,7 +10,11 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "~/common/components/ui/avatar";
-import { Form, useOutletContext } from "react-router";
+import {
+  Form,
+  useOutletContext,
+  type ShouldRevalidateFunctionArgs,
+} from "react-router";
 import { Textarea } from "~/common/components/ui/textarea";
 import { Button } from "~/common/components/ui/button";
 import { SendIcon } from "lucide-react";
@@ -56,13 +60,6 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
     message: message as string,
     userId,
   });
-  setTimeout(async () => {
-    await sendMessageToRoom(client, {
-      messageRoomId: params.messageRoomId,
-      message: "I got your message, this message is sent by the server",
-      userId: "2a040d91-8acf-40d1-8c07-42471ea091cb",
-    });
-  }, 2000);
   return {
     ok: true,
   };
@@ -120,7 +117,6 @@ export default function MessagePage({
             <CardTitle className="text-xl">
               {loaderData.participant?.profile?.name ?? ""}
             </CardTitle>
-            <CardDescription>2 days ago</CardDescription>
           </div>
         </CardHeader>
       </Card>
@@ -167,4 +163,6 @@ export default function MessagePage({
   );
 }
 
-export const shouldRevalidate = () => false;
+export const shouldRevalidate = (args: ShouldRevalidateFunctionArgs) => {
+  return args.currentUrl.pathname !== args.nextUrl.pathname;
+};
