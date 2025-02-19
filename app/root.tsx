@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
   useLocation,
   useNavigation,
+  type ShouldRevalidateFunctionArgs,
 } from "react-router";
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
@@ -127,3 +128,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     </main>
   );
 }
+
+export const shouldRevalidate = (args: ShouldRevalidateFunctionArgs) => {
+  return !args.nextUrl.pathname.includes("messages");
+};
