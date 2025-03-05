@@ -211,6 +211,20 @@
       "when": 1738785334759,
       "tag": "0029_glamorous_chamber",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1741177534231,
+      "tag": "0031_minor_harry_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1741178027789,
+      "tag": "0032_chilly_komodo",
+      "breakpoints": true
     }
   ]
 }
