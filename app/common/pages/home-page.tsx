@@ -73,7 +73,7 @@ export default function HomePage({ loaderData }: Route.ComponentProps) {
         </div>
         <div className="relative">
           <VelocityScroll
-            defaultVelocity={5}
+            defaultVelocity={4}
             className="font-display text-center text-5xl font-bold tracking-[-0.02em] md:leading-[5rem]"
           >
             code hard 💻 travel far 🌍
