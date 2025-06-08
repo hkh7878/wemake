@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";

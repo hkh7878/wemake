@@ -8,7 +8,7 @@ import {
 } from "~/common/components/ui/card";
 
 interface CategoryCardProps {
-  id: number;
+  id: string;
   name: string;
   description: string;
 }

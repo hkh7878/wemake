@@ -20,7 +20,7 @@ export default function ProductPagination({
   const page = Number(searchParams.get("page") ?? 1);
   const onClick = (page: number) => {
     searchParams.set("page", page.toString());
-    setSearchParams(searchParams, { preventScrollReset: true });
+    setSearchParams(searchParams);
   };
   return (
     <div>

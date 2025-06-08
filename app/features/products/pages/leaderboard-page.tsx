@@ -1,11 +1,8 @@
 import { Hero } from "~/common/components/hero";
-import type { Route } from "./+types/leaderboard-page";
+import { Route } from "./+types/leaderboard-page";
 import { Button } from "~/common/components/ui/button";
 import { ProductCard } from "../components/product-card";
 import { Link } from "react-router";
-import { getProductsByDateRange } from "../queries";
-import { DateTime } from "luxon";
-import { makeSSRClient } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -14,42 +11,14 @@ export const meta: Route.MetaFunction = () => {
   ];
 };
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-  const { client, headers } = makeSSRClient(request);
-  const [dailyProducts, weeklyProducts, monthlyProducts, yearlyProducts] =
-    await Promise.all([
-      getProductsByDateRange(client, {
-        startDate: DateTime.now().startOf("day"),
-        endDate: DateTime.now().endOf("day"),
-        limit: 7,
-      }),
-      getProductsByDateRange(client, {
-        startDate: DateTime.now().startOf("week"),
-        endDate: DateTime.now().endOf("week"),
-        limit: 7,
-      }),
-      getProductsByDateRange(client, {
-        startDate: DateTime.now().startOf("month"),
-        endDate: DateTime.now().endOf("month"),
-        limit: 7,
-      }),
-      getProductsByDateRange(client, {
-        startDate: DateTime.now().startOf("year"),
-        endDate: DateTime.now().endOf("year"),
-        limit: 7,
-      }),
-    ]);
-  return { dailyProducts, weeklyProducts, monthlyProducts, yearlyProducts };
-};
-
-export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
+export default function LeaderboardPage() {
   return (
     <div className="space-y-20">
       <Hero
         title="Leaderboards"
         subtitle="The most popular products on wemake"
       />
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <div>
           <h2 className="text-3xl font-bold leading-tight tracking-tight">
             Daily Leaderboard
@@ -58,17 +27,15 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
             The most popular products on wemake by day.
           </p>
         </div>
-        {loaderData.dailyProducts.map((product) => (
+        {Array.from({ length: 7 }).map((_, index) => (
           <ProductCard
-            key={product.product_id.toString()}
-            id={product.product_id.toString()}
-            name={product.name}
-            description={product.tagline}
-            reviewsCount={product.reviews}
-            viewsCount={product.views}
-            promotedFrom={product.promoted_from}
-            isUpvoted={product.is_upvoted}
-            votesCount={product.upvotes}
+            key={`productId-${index}`}
+            id={`productId-${index}`}
+            name="Product Name"
+            description="Product Description"
+            commentsCount={12}
+            viewsCount={12}
+            votesCount={120}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">
@@ -77,7 +44,7 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
           </Link>
         </Button>
       </div>
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <div>
           <h2 className="text-3xl font-bold leading-tight tracking-tight">
             Weekly Leaderboard
@@ -86,17 +53,15 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
             The most popular products on wemake by week.
           </p>
         </div>
-        {loaderData.weeklyProducts.map((product) => (
+        {Array.from({ length: 7 }).map((_, index) => (
           <ProductCard
-            key={product.product_id.toString()}
-            id={product.product_id.toString()}
-            name={product.name}
-            description={product.tagline}
-            reviewsCount={product.reviews}
-            viewsCount={product.views}
-            votesCount={product.upvotes}
-            isUpvoted={product.is_upvoted}
-            promotedFrom={product.promoted_from}
+            key={`productId-${index}`}
+            id={`productId-${index}`}
+            name="Product Name"
+            description="Product Description"
+            commentsCount={12}
+            viewsCount={12}
+            votesCount={120}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">
@@ -105,7 +70,7 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
           </Link>
         </Button>
       </div>
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <div>
           <h2 className="text-3xl font-bold leading-tight tracking-tight">
             Monthly Leaderboard
@@ -114,17 +79,15 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
             The most popular products on wemake by month.
           </p>
         </div>
-        {loaderData.monthlyProducts.map((product) => (
+        {Array.from({ length: 7 }).map((_, index) => (
           <ProductCard
-            key={product.product_id.toString()}
-            id={product.product_id.toString()}
-            name={product.name}
-            description={product.tagline}
-            reviewsCount={product.reviews}
-            viewsCount={product.views}
-            votesCount={product.upvotes}
-            isUpvoted={product.is_upvoted}
-            promotedFrom={product.promoted_from}
+            key={`productId-${index}`}
+            id={`productId-${index}`}
+            name="Product Name"
+            description="Product Description"
+            commentsCount={12}
+            viewsCount={12}
+            votesCount={120}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">
@@ -133,7 +96,7 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
           </Link>
         </Button>
       </div>
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <div>
           <h2 className="text-3xl font-bold leading-tight tracking-tight">
             Yearly Leaderboard
@@ -142,17 +105,15 @@ export default function LeaderboardPage({ loaderData }: Route.ComponentProps) {
             The most popular products on wemake by year.
           </p>
         </div>
-        {loaderData.yearlyProducts.map((product) => (
+        {Array.from({ length: 7 }).map((_, index) => (
           <ProductCard
-            key={product.product_id.toString()}
-            id={product.product_id.toString()}
-            name={product.name}
-            description={product.tagline}
-            reviewsCount={product.reviews}
-            viewsCount={product.views}
-            votesCount={product.upvotes}
-            isUpvoted={product.is_upvoted}
-            promotedFrom={product.promoted_from}
+            key={`productId-${index}`}
+            id={`productId-${index}`}
+            name="Product Name"
+            description="Product Description"
+            commentsCount={12}
+            viewsCount={12}
+            votesCount={120}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">

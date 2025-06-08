@@ -1,6 +1,4 @@
 import { StarIcon } from "lucide-react";
-import { DateTime } from "luxon";
-import { Link } from "react-router-dom";
 import {
   Avatar,
   AvatarFallback,
@@ -10,7 +8,7 @@ import {
 interface ReviewCardProps {
   username: string;
   handle: string;
-  avatarUrl: string | null;
+  avatarUrl: string;
   rating: number;
   content: string;
   postedAt: string;
@@ -27,16 +25,12 @@ export function ReviewCard({
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-2">
-        <Link to={`/users/${handle}`}>
-          <Avatar>
-            <AvatarFallback>{username[0]}</AvatarFallback>
-            {avatarUrl ? <AvatarImage src={avatarUrl} /> : null}
-          </Avatar>
-        </Link>
+        <Avatar>
+          <AvatarFallback>{username[0]}</AvatarFallback>
+          <AvatarImage src={avatarUrl} />
+        </Avatar>
         <div>
-          <Link to={`/users/${handle}`}>
-            <h4 className="text-lg font-bold">{username}</h4>
-          </Link>
+          <h4 className="text-lg font-bold">{username}</h4>
           <p className="text-sm text-muted-foreground">{handle}</p>
         </div>
       </div>
@@ -46,11 +40,7 @@ export function ReviewCard({
         ))}
       </div>
       <p className="text-muted-foreground">{content}</p>
-      <span className="text-xs text-muted-foreground">
-        {DateTime.fromISO(postedAt, {
-          zone: "utc",
-        }).toRelative()}
-      </span>
+      <span className="text-xs text-muted-foreground">{postedAt}</span>
     </div>
   );
 }

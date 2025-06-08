@@ -1,14 +1,11 @@
 import { DateTime } from "luxon";
-import type { Route } from "./+types/monthly-leaderboard-page";
+import { Route } from "./+types/monthly-leaderboard-page";
 import { data, isRouteErrorResponse, Link } from "react-router";
 import { z } from "zod";
 import { Hero } from "~/common/components/hero";
 import { ProductCard } from "../components/product-card";
 import { Button } from "~/common/components/ui/button";
 import ProductPagination from "~/common/components/product-pagination";
-import { getProductPagesByDateRange, getProductsByDateRange } from "../queries";
-import { makeSSRClient } from "~/supa-client";
-import { PAGE_SIZE } from "../contants";
 
 const paramsSchema = z.object({
   year: z.coerce.number(),
@@ -32,7 +29,7 @@ export const meta: Route.MetaFunction = ({ params }) => {
   ];
 };
 
-export const loader = async ({ params, request }: Route.LoaderArgs) => {
+export const loader = ({ params }: Route.LoaderArgs) => {
   const { success, data: parsedData } = paramsSchema.safeParse(params);
   if (!success) {
     throw data(
@@ -68,21 +65,7 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
       { status: 400 }
     );
   }
-  const url = new URL(request.url);
-  const { client, headers } = makeSSRClient(request);
-  const products = await getProductsByDateRange(client, {
-    startDate: date.startOf("month"),
-    endDate: date.endOf("month"),
-    limit: PAGE_SIZE,
-    page: Number(url.searchParams.get("page") || 1),
-  });
-  const totalPages = await getProductPagesByDateRange(client, {
-    startDate: date.startOf("month"),
-    endDate: date.endOf("month"),
-  });
   return {
-    products,
-    totalPages,
     ...parsedData,
   };
 };
@@ -132,32 +115,19 @@ export default function MonthlyLeaderboardPage({
         ) : null}
       </div>
       <div className="space-y-5 w-full max-w-screen-md mx-auto">
-        {loaderData.products.map((product) => (
+        {Array.from({ length: 11 }).map((_, index) => (
           <ProductCard
-            key={product.product_id}
-            id={product.product_id.toString()}
-            name={product.name}
-            description={product.tagline}
-            reviewsCount={product.reviews}
-            viewsCount={product.views}
-            votesCount={product.upvotes}
-            isUpvoted={product.is_upvoted}
-            promotedFrom={product.promoted_from}
+            key={`productId-${index}`}
+            id={`productId-${index}`}
+            name="Product Name"
+            description="Product Description"
+            commentsCount={12}
+            viewsCount={12}
+            votesCount={120}
           />
         ))}
-        {loaderData.products.length === 0 && (
-          <div className="col-span-full">
-            <p className=" text-center font-semibold text-muted-foreground">
-              No products found, go back to{" "}
-              <Button variant={"link"} asChild className="p-0 text-lg">
-                <Link to="/products/leaderboards">leaderboards</Link>
-              </Button>{" "}
-              page.
-            </p>
-          </div>
-        )}
       </div>
-      <ProductPagination totalPages={loaderData.totalPages} />
+      <ProductPagination totalPages={10} />
     </div>
   );
 }

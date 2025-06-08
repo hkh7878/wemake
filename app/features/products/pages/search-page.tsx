@@ -1,13 +1,11 @@
 import { z } from "zod";
-import type { Route } from "./+types/search-page";
+import { Route } from "./+types/search-page";
 import { Hero } from "~/common/components/hero";
 import { ProductCard } from "../components/product-card";
 import ProductPagination from "~/common/components/product-pagination";
-import { Form, Link, useSearchParams } from "react-router";
+import { Form } from "react-router";
 import { Input } from "~/common/components/ui/input";
 import { Button } from "~/common/components/ui/button";
-import { getProductsBySearch, getPagesBySearch } from "../queries";
-import { makeSSRClient } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -16,36 +14,22 @@ export const meta: Route.MetaFunction = () => {
   ];
 };
 
-const searchParams = z.object({
+const paramsSchema = z.object({
   query: z.string().optional().default(""),
   page: z.coerce.number().optional().default(1),
 });
 
-export async function loader({ request }: Route.LoaderArgs) {
+export function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
-  const { success, data: parsedData } = searchParams.safeParse(
+  const { success, data: parsedData } = paramsSchema.safeParse(
     Object.fromEntries(url.searchParams)
   );
   if (!success) {
     throw new Error("Invalid params");
   }
-  if (parsedData.query === "") {
-    return { products: [], totalPages: 1 };
-  }
-  const { client, headers } = makeSSRClient(request);
-  const products = await getProductsBySearch(client, {
-    query: parsedData.query,
-    page: parsedData.page,
-  });
-  const totalPages = await getPagesBySearch(client, {
-    query: parsedData.query,
-  });
-  return { products, totalPages };
 }
 
 export default function SearchPage({ loaderData }: Route.ComponentProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get("query") || "";
   return (
     <div className="space-y-10">
       <Hero
@@ -61,30 +45,19 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
         <Button type="submit">Search</Button>
       </Form>
       <div className="space-y-5 w-full max-w-screen-md mx-auto">
-        {loaderData.products.map((product) => (
+        {Array.from({ length: 11 }).map((_, index) => (
           <ProductCard
-            key={product.product_id}
-            id={product.product_id}
-            name={product.name}
-            description={product.tagline}
-            reviewsCount={product.reviews}
-            viewsCount={product.views}
-            votesCount={product.upvotes}
-            promotedFrom={product.promoted_from}
-            isUpvoted={product.is_upvoted}
+            key={`productId-${index}`}
+            id={`productId-${index}`}
+            name="Product Name"
+            description="Product Description"
+            commentsCount={12}
+            viewsCount={12}
+            votesCount={120}
           />
         ))}
-        {query && loaderData.products.length === 0 && (
-          <div className="col-span-full">
-            <p className=" text-center font-semibold text-muted-foreground">
-              No products found for "{query}".
-            </p>
-          </div>
-        )}
       </div>
-      {loaderData.products.length > 0 && (
-        <ProductPagination totalPages={loaderData.totalPages} />
-      )}
+      <ProductPagination totalPages={10} />
     </div>
   );
 }

@@ -6,16 +6,12 @@ import {
   Scripts,
   ScrollRestoration,
   useLocation,
-  useNavigation,
-  type ShouldRevalidateFunctionArgs,
 } from "react-router";
+
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 import Navigation from "./common/components/navigation";
 import { Settings } from "luxon";
-import { cn } from "./lib/utils";
-import { makeSSRClient } from "./supa-client";
-import { countNotifications, getUserById } from "./features/users/queries";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,9 +29,9 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   Settings.defaultLocale = "ko";
-  Settings.defaultZone = "utc";
+  Settings.defaultZone = "Asia/Seoul";
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -51,51 +47,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-  const { client } = makeSSRClient(request);
-  const {
-    data: { user },
-  } = await client.auth.getUser();
-  if (user && user.id) {
-    const profile = await getUserById(client, { id: user.id });
-    const count = await countNotifications(client, { userId: user.id });
-    return { user, profile, notificationsCount: count };
-  }
-  return { user: null, profile: null, notificationsCount: 0 };
-};
-
-export default function App({ loaderData }: Route.ComponentProps) {
+export default function App() {
   const { pathname } = useLocation();
-  const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
-  const isLoggedIn = loaderData.user !== null;
   return (
-    <div
-      className={cn({
-        "py-20 md:py-40 px-5 md:px-20": !pathname.includes("/auth/"),
-        "transition-opacity animate-pulse": isLoading,
-      })}
-    >
+    <div className={pathname.includes("/auth/") ? "" : "py-28 px-20"}>
       {pathname.includes("/auth") ? null : (
         <Navigation
-          isLoggedIn={isLoggedIn}
-          username={loaderData.profile?.username}
-          avatar={loaderData.profile?.avatar}
-          name={loaderData.profile?.name}
-          hasNotifications={loaderData.notificationsCount > 0}
+          isLoggedIn={false}
+          hasNotifications={false}
           hasMessages={false}
         />
       )}
-      <Outlet
-        context={{
-          isLoggedIn,
-          name: loaderData.profile?.name,
-          userId: loaderData.user?.id,
-          username: loaderData.profile?.username,
-          avatar: loaderData.profile?.avatar,
-          email: loaderData.user?.email,
-        }}
-      />
+      <Outlet />
     </div>
   );
 }
@@ -128,7 +91,3 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     </main>
   );
 }
-
-export const shouldRevalidate = (args: ShouldRevalidateFunctionArgs) => {
-  return !args.nextUrl.pathname.includes("messages");
-};

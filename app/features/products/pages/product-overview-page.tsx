@@ -1,32 +1,30 @@
-import { useOutletContext } from "react-router";
-import type { Route } from "./+types/product-overview-page";
-import { makeAdminClient } from "~/supa-client";
+import { Route } from "./+types/product-overview-page";
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
-  const adminClient = makeAdminClient();
-  await adminClient.rpc("track_event", {
-    event_type: "product_view",
-    event_data: {
-      product_id: params.productId,
-    },
-  });
-  return null;
-};
+export function meta() {
+  return [
+    { title: "Product Overview | wemake" },
+    { name: "description", content: "View product details and information" },
+  ];
+}
 
-export default function ProductOverviewPage() {
-  const { description, how_it_works } = useOutletContext<{
-    description: string;
-    how_it_works: string;
-  }>();
+export default function ProductOverviewPage({
+  params: { productId },
+}: Route.ComponentProps) {
   return (
     <div className="space-y-10">
       <div className="space-y-1">
         <h3 className="text-lg font-bold">What is this product?</h3>
-        <p className="text-muted-foreground">{description}</p>
+        <p className="text-muted-foreground">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+          quos.
+        </p>
       </div>
       <div className="space-y-1">
         <h3 className="text-lg font-bold">How does it work?</h3>
-        <p className="text-muted-foreground">{how_it_works}</p>
+        <p className="text-muted-foreground">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+          quos.
+        </p>
       </div>
     </div>
   );
