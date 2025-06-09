@@ -94,14 +94,11 @@ export default function PostPage() {
                 <div className="flex flex-col gap-5">
                   <Reply
                     avatarUrl="https://github.com/serranoarevalo.png"
-                    avatarFallback="N"
                     username="Nicolas"
                     userLink="/users/@nico"
-                    timeAgo="12 hours ago"
+                    timestamp="12 hours ago"
                     content="Hello, I'm looking for a productivity tool that can help me manage my tasks and projects. Any recommendations? I have tried Notion, but it's not what I'm looking for. I dream of a tool that can help me manage my tasks and projects. Any recommendations?"
-                    onReply={() => {
-                      // Add your reply handler here
-                    }}
+                    topLevel={true}
                   />
                 </div>
               </div>
